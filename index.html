@@ -465,6 +465,186 @@ html = r'''<!DOCTYPE html>
       letter-spacing: 0.12em;
     }
 
+    .scenario-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.02);
+      opacity: 0.9;
+    }
+
+    .scenario-shade {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(2,8,20,0.08), rgba(2,8,20,0.46)),
+        linear-gradient(90deg, rgba(2,8,20,0.28), transparent 45%, rgba(2,8,20,0.12));
+    }
+
+    .scenario-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .scenario-kicker,
+    .scenario-result {
+      position: absolute;
+      top: 20px;
+      padding: 8px 11px;
+      border: 1px solid rgba(138,247,251,0.28);
+      border-radius: 999px;
+      background: rgba(2,8,20,0.68);
+      backdrop-filter: blur(8px);
+      color: #d9f9ff;
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .scenario-kicker { left: 20px; }
+
+    .scenario-result {
+      right: 20px;
+      border-color: rgba(142,234,79,0.38);
+      color: #d8ffbd;
+    }
+
+    .flow-line {
+      position: absolute;
+      left: 11%;
+      right: 9%;
+      top: 58%;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(40,215,223,0.12), var(--cyan), var(--green));
+      box-shadow: 0 0 12px rgba(40,215,223,0.75);
+      transform: rotate(-4deg);
+      transform-origin: center;
+    }
+
+    .flow-line::before {
+      content: "";
+      position: absolute;
+      right: -2px;
+      top: -5px;
+      width: 10px;
+      height: 10px;
+      border-top: 2px solid var(--green);
+      border-right: 2px solid var(--green);
+      transform: rotate(45deg);
+    }
+
+    .adaptive-node {
+      position: absolute;
+      left: 50%;
+      top: 55%;
+      width: 88px;
+      height: 88px;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      border: 2px solid rgba(40,215,223,0.85);
+      background: rgba(2,14,28,0.82);
+      color: var(--cyan-soft);
+      text-align: center;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      box-shadow: 0 0 0 12px rgba(40,215,223,0.08), 0 0 32px rgba(40,215,223,0.45);
+    }
+
+    .gate-visual.is-active .adaptive-node {
+      animation: nodePulse 2.4s ease-in-out infinite;
+    }
+
+    .signal-particle {
+      position: absolute;
+      left: 12%;
+      top: 58%;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 14px var(--cyan);
+      opacity: 0;
+      animation-play-state: paused;
+    }
+
+    .signal-particle.useful {
+      background: var(--green);
+      box-shadow: 0 0 15px var(--green);
+    }
+
+    .signal-particle.normal {
+      width: 7px;
+      height: 7px;
+    }
+
+    .gate-visual.is-active .signal-particle {
+      animation: usefulSignal 3.2s linear infinite;
+      animation-play-state: running;
+    }
+
+    .gate-visual.is-active .signal-particle:nth-of-type(2) { animation-delay: 0.8s; }
+    .gate-visual.is-active .signal-particle:nth-of-type(3) { animation-delay: 1.6s; }
+    .gate-visual.is-active .signal-particle.normal {
+      animation-name: normalSignal;
+      animation-delay: 0.35s;
+    }
+
+    .scenario-caption {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 18px;
+      padding: 13px 15px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      background: rgba(2,8,20,0.72);
+      backdrop-filter: blur(10px);
+      color: #c9dced;
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .scenario-caption strong {
+      color: var(--green);
+    }
+
+    .hero-proof-line {
+      margin-top: 18px;
+      color: var(--cyan-soft);
+      font-size: 0.9rem;
+      font-weight: 750;
+    }
+
+    @keyframes usefulSignal {
+      0% { transform: translate(0, 0); opacity: 0; }
+      10% { opacity: 1; }
+      48% { transform: translate(235px, -18px); opacity: 1; }
+      58% { transform: translate(285px, -21px) scale(1.45); opacity: 1; }
+      100% { transform: translate(505px, -35px); opacity: 0; }
+    }
+
+    @keyframes normalSignal {
+      0% { transform: translate(0, 13px); opacity: 0; }
+      12% { opacity: 0.7; }
+      50% { transform: translate(245px, -7px); opacity: 0.65; }
+      62%, 100% { transform: translate(280px, -9px) scale(0.2); opacity: 0; }
+    }
+
+    @keyframes nodePulse {
+      0%, 100% { box-shadow: 0 0 0 10px rgba(40,215,223,0.07), 0 0 26px rgba(40,215,223,0.35); }
+      50% { box-shadow: 0 0 0 18px rgba(142,234,79,0.05), 0 0 42px rgba(142,234,79,0.4); }
+    }
+
     .problem-grid,
     .cards-3,
     .cards-4,
@@ -1180,16 +1360,33 @@ html = r'''<!DOCTYPE html>
       }
 
       .gate-visual {
-        min-height: 700px;
+        min-height: 520px;
       }
 
-      .gate {
-        width: 105px;
-        height: 145px;
+      .scenario-kicker,
+      .scenario-result {
+        top: 14px;
+        max-width: 45%;
+        font-size: 0.6rem;
       }
 
-      .gate::before {
-        height: 93px;
+      .scenario-kicker { left: 14px; }
+      .scenario-result { right: 14px; }
+
+      .scenario-photo {
+        object-position: 52% center;
+      }
+
+      .adaptive-node {
+        top: 54%;
+        width: 76px;
+        height: 76px;
+      }
+
+      .scenario-caption {
+        left: 14px;
+        right: 14px;
+        bottom: 14px;
       }
 
       .screen-metrics {
@@ -1206,6 +1403,16 @@ html = r'''<!DOCTYPE html>
 
       .footer-row {
         flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
       }
     }
   </style>
@@ -1246,6 +1453,7 @@ html = r'''<!DOCTYPE html>
             It learns normal sensor behaviour and forwards only meaningful, abnormal, or
             contextually important data to machine learning, alerts, logging, or communication.
           </p>
+          <p class="hero-proof-line">CAAD-Gate helps IoT devices know when not to process.</p>
 
           <div class="button-row">
             <a class="btn btn-primary" href="#downloads">Download Framework</a>
@@ -1269,33 +1477,27 @@ html = r'''<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="gate-visual reveal" aria-label="Sensor data entering CAAD-Gate">
-          <div class="visual-label">
-            <span>Continuous input</span>
-            <span>Meaningful output</span>
-          </div>
-
-          <div class="visual-body">
-            <div class="stream-box">
-              <div class="sensor-chip">Microphone / Sound</div>
-              <div class="sensor-chip">Temperature / Environment</div>
-              <div class="sensor-chip">Motion / Accelerometer</div>
-              <div class="sensor-chip">Other IoT Sensors</div>
-            </div>
-
-            <div class="gate">
-              <div class="gate-core">Adaptive<br />Core</div>
-            </div>
-
-            <div class="output-box">
-              <div class="output-chip open">ML Processing</div>
-              <div class="output-chip open">Alert / Logging</div>
-              <div class="output-chip open">Cloud / Communication</div>
-              <div class="output-chip closed">Normal data rejected</div>
+        <div class="gate-visual reveal" id="heroScenario" aria-label="Real ESP32 sensor prototype demonstrating adaptive data gating">
+          <img
+            class="scenario-photo"
+            src="hero-real-scenario.png"
+            alt="ESP32 prototype connected to sound, environment, and motion sensors with a live display"
+          />
+          <div class="scenario-shade"></div>
+          <div class="scenario-overlay" aria-hidden="true">
+            <span class="scenario-kicker">Continuous sensor data</span>
+            <span class="scenario-result">Useful event forwarded</span>
+            <div class="flow-line"></div>
+            <span class="signal-particle useful"></span>
+            <span class="signal-particle useful"></span>
+            <span class="signal-particle useful"></span>
+            <span class="signal-particle normal"></span>
+            <div class="adaptive-node">Adaptive<br />Gate</div>
+            <div class="scenario-caption">
+              Normal signals fade at the gate. <strong>Meaningful events continue</strong> to ML,
+              alerts, logging, or communication.
             </div>
           </div>
-
-          <div class="gate-status">Gate opens only for useful data</div>
         </div>
       </div>
     </section>

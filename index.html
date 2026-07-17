@@ -156,53 +156,15 @@ html = r'''<!DOCTYPE html>
     .brand {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-weight: 900;
-      font-size: 1.18rem;
-      letter-spacing: -0.02em;
-      white-space: nowrap;
+      width: 210px;
+      height: 58px;
+      overflow: hidden;
     }
 
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 13px;
-      border: 1px solid rgba(40,215,223,0.45);
-      display: grid;
-      place-items: center;
-      background:
-        linear-gradient(135deg, rgba(40,215,223,0.2), rgba(52,135,255,0.14)),
-        rgba(255,255,255,0.025);
-      box-shadow: inset 0 0 24px rgba(40,215,223,0.08);
-    }
-
-    .brand-mark span {
-      width: 17px;
-      height: 24px;
-      border: 2px solid var(--cyan);
-      border-left-width: 5px;
-      border-radius: 4px 9px 9px 4px;
-      position: relative;
-    }
-
-    .brand-mark span::after {
-      content: "";
-      position: absolute;
-      width: 9px;
-      height: 2px;
-      background: var(--green);
-      right: -10px;
-      top: 9px;
-      box-shadow: 0 -6px 0 var(--green), 0 6px 0 var(--green);
-    }
-
-    .brand strong {
-      color: var(--white);
-    }
-
-    .brand em {
-      font-style: normal;
-      color: var(--cyan);
+    .brand-logo {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .nav-links {
@@ -1230,8 +1192,7 @@ html = r'''<!DOCTYPE html>
   <header class="topbar">
     <nav class="nav container" aria-label="Main navigation">
       <a class="brand" href="#home" aria-label="CAAD-Gate home">
-        <span class="brand-mark"><span></span></span>
-        <span><strong>CAAD</strong>-<em>Gate</em></span>
+        <img class="brand-logo" src="image.png" alt="CAAD-Gate" />
       </a>
 
       <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>

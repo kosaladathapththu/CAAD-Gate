@@ -1009,6 +1009,8 @@ html = r'''<!DOCTYPE html>
     }
 
     .pipeline-heading {
+      position: relative;
+      z-index: 3;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -1040,6 +1042,7 @@ html = r'''<!DOCTYPE html>
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 9px;
+      z-index: 3;
     }
 
     .pipeline-sensors div {
@@ -1068,6 +1071,7 @@ html = r'''<!DOCTYPE html>
       width: 2px;
       height: 24px;
       background: linear-gradient(var(--cyan), var(--blue));
+      z-index: 2;
     }
 
     .pipeline-arrow::after {
@@ -1092,6 +1096,7 @@ html = r'''<!DOCTYPE html>
       border-radius: 16px;
       background: linear-gradient(135deg, rgba(40,215,223,0.09), rgba(52,135,255,0.07));
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+      z-index: 3;
     }
 
     .pipeline-core-title {
@@ -1134,6 +1139,7 @@ html = r'''<!DOCTYPE html>
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+      z-index: 3;
     }
 
     .pipeline-branch {
@@ -1182,6 +1188,7 @@ html = r'''<!DOCTYPE html>
       text-align: center;
       font-size: 0.65rem;
       font-weight: 800;
+      z-index: 3;
     }
 
     .pipeline-downstream {
@@ -1210,6 +1217,69 @@ html = r'''<!DOCTYPE html>
       border: 1px solid rgba(138,247,251,0.14);
       border-radius: 13px;
       background: rgba(2,8,20,0.82);
+      z-index: 3;
+    }
+
+    .pipeline-lines {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    .pipeline-lines path {
+      fill: none;
+      stroke: rgba(80,181,226,0.34);
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .pipeline-lines .moving-line {
+      stroke-dasharray: 5 9;
+      animation: pipelineLineFlow 1.2s linear infinite;
+    }
+
+    .pipeline-lines .reject-line {
+      stroke: rgba(160,180,198,0.3);
+    }
+
+    .pipeline-lines .forward-line,
+    .pipeline-lines .downstream-line {
+      stroke: rgba(142,234,79,0.38);
+    }
+
+    .gate-visual.gate-open .pipeline-lines .forward-line,
+    .gate-visual.gate-open .pipeline-lines .downstream-line {
+      stroke: rgba(142,234,79,0.92);
+      filter: drop-shadow(0 0 5px rgba(142,234,79,0.55));
+    }
+
+    .gate-visual.gate-closed .pipeline-lines .reject-line {
+      stroke: rgba(190,207,221,0.82);
+      filter: drop-shadow(0 0 4px rgba(190,207,221,0.32));
+    }
+
+    .pipeline-data-dot {
+      fill: var(--cyan);
+      filter: drop-shadow(0 0 5px var(--cyan));
+    }
+
+    .pipeline-data-dot.useful {
+      fill: var(--green);
+      filter: drop-shadow(0 0 6px var(--green));
+    }
+
+    .pipeline-data-dot.normal {
+      fill: #b6c7d5;
+      filter: drop-shadow(0 0 4px rgba(182,199,213,0.65));
+    }
+
+    @keyframes pipelineLineFlow {
+      to { stroke-dashoffset: -28; }
     }
 
     .pipeline-telemetry span {

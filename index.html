@@ -234,19 +234,13 @@ html = r'''<!DOCTYPE html>
       object-position: center;
       opacity: 0;
       transform: scale(1.02);
-      animation: heroBackgroundCycle 24s ease-in-out infinite;
+      transition: opacity 1.6s ease, transform 8s ease;
       will-change: opacity, transform;
     }
 
-    .hero-bg:nth-child(2) { animation-delay: 8s; }
-    .hero-bg:nth-child(3) { animation-delay: 16s; }
-
-    @keyframes heroBackgroundCycle {
-      0% { opacity: 0; transform: scale(1.02) translate3d(0, 0, 0); }
-      5% { opacity: 0.34; }
-      28% { opacity: 0.34; }
-      34% { opacity: 0; transform: scale(1.09) translate3d(-1%, -0.5%, 0); }
-      100% { opacity: 0; transform: scale(1.09) translate3d(-1%, -0.5%, 0); }
+    .hero-bg.active {
+      opacity: 0.42;
+      transform: scale(1.08) translate3d(-0.7%, -0.4%, 0);
     }
 
     .hero-grid {
@@ -1824,7 +1818,7 @@ html = r'''<!DOCTYPE html>
   <main>
     <section class="hero" id="home">
       <div class="hero-backgrounds" aria-hidden="true">
-        <img class="hero-bg" src="hero-bg-lab.png" alt="" />
+        <img class="hero-bg active" src="hero-bg-lab.png" alt="" />
         <img class="hero-bg" src="hero-bg-industrial.png" alt="" />
         <img class="hero-bg" src="hero-bg-environment.png" alt="" />
       </div>

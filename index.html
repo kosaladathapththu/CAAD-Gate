@@ -2420,6 +2420,32 @@ html = r'''<!DOCTYPE html>
               <span class="scenario-result" id="transactionResult">Ready</span>
             </div>
 
+            <svg class="pipeline-lines" viewBox="0 0 500 650" preserveAspectRatio="none">
+              <path class="moving-line" d="M83 146 V166 Q83 174 93 174 H250 V180" />
+              <path class="moving-line" d="M250 146 V180" />
+              <path class="moving-line" d="M417 146 V166 Q417 174 407 174 H250" />
+              <path class="moving-line reject-line" d="M250 278 V294 L125 310" />
+              <path class="moving-line forward-line" d="M250 278 V294 L375 310" />
+              <path class="moving-line downstream-line" d="M375 368 V378 L312 390 V452" />
+
+              <circle class="pipeline-data-dot" r="4">
+                <animateMotion dur="2.6s" repeatCount="indefinite" path="M83 146 V166 Q83 174 93 174 H250 V180" />
+              </circle>
+              <circle class="pipeline-data-dot" r="4">
+                <animateMotion dur="2.6s" begin="0.8s" repeatCount="indefinite" path="M250 146 V180" />
+              </circle>
+              <circle class="pipeline-data-dot" r="4">
+                <animateMotion dur="2.6s" begin="1.6s" repeatCount="indefinite" path="M417 146 V166 Q417 174 407 174 H250" />
+              </circle>
+              <circle class="pipeline-data-dot useful" r="4.5">
+                <animateMotion dur="3.8s" repeatCount="indefinite" path="M250 278 V294 L375 310 V368 V378 L312 390 V452" />
+              </circle>
+              <circle class="pipeline-data-dot normal" r="4">
+                <animateMotion dur="3.8s" begin="1.2s" repeatCount="indefinite" path="M250 278 V294 L125 310" />
+                <animate attributeName="opacity" values="0;0.8;0.8;0" keyTimes="0;0.15;0.72;1" dur="3.8s" begin="1.2s" repeatCount="indefinite" />
+              </circle>
+            </svg>
+
             <div class="pipeline-sensors">
               <div><b>◉</b><span>Sound</span></div>
               <div><b>◇</b><span>Environment</span></div>
@@ -2444,9 +2470,6 @@ html = r'''<!DOCTYPE html>
 
             <div class="pipeline-downstream">Feature extraction · ML · Alert processing</div>
             <div class="pipeline-reduced">Reduced processing load on the edge device</div>
-
-            <span class="pipeline-packet useful"></span>
-            <span class="pipeline-packet normal"></span>
 
             <div class="pipeline-telemetry">
               <span><small>Packet</small><b id="packetId">#0000</b></span>

@@ -204,6 +204,49 @@ html = r'''<!DOCTYPE html>
       display: grid;
       align-items: center;
       padding: 128px 0 78px;
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+    }
+
+    .hero-backgrounds {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background: var(--navy-950);
+    }
+
+    .hero-backgrounds::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(2,8,20,0.96) 0%, rgba(2,8,20,0.84) 42%, rgba(2,8,20,0.57) 72%, rgba(2,8,20,0.7) 100%),
+        linear-gradient(180deg, rgba(2,8,20,0.2), rgba(2,8,20,0.72));
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: -3%;
+      width: 106%;
+      height: 106%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0;
+      transform: scale(1.02);
+      animation: heroBackgroundCycle 24s ease-in-out infinite;
+      will-change: opacity, transform;
+    }
+
+    .hero-bg:nth-child(2) { animation-delay: 8s; }
+    .hero-bg:nth-child(3) { animation-delay: 16s; }
+
+    @keyframes heroBackgroundCycle {
+      0% { opacity: 0; transform: scale(1.02) translate3d(0, 0, 0); }
+      5% { opacity: 0.5; }
+      28% { opacity: 0.5; }
+      34% { opacity: 0; transform: scale(1.09) translate3d(-1%, -0.5%, 0); }
+      100% { opacity: 0; transform: scale(1.09) translate3d(-1%, -0.5%, 0); }
     }
 
     .hero-grid {
@@ -1716,6 +1759,11 @@ html = r'''<!DOCTYPE html>
 
   <main>
     <section class="hero" id="home">
+      <div class="hero-backgrounds" aria-hidden="true">
+        <img class="hero-bg" src="hero-bg-lab.png" alt="" />
+        <img class="hero-bg" src="hero-bg-industrial.png" alt="" />
+        <img class="hero-bg" src="hero-bg-environment.png" alt="" />
+      </div>
       <div class="container hero-grid">
         <div class="reveal">
           <div class="eyebrow">Adaptive Edge Intelligence</div>

@@ -1115,25 +1115,59 @@ html = r'''<!DOCTYPE html>
 
     .pipeline-modules {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 5px;
       margin-top: 9px;
     }
 
     .pipeline-modules div {
-      padding: 9px 6px;
+      min-width: 0;
+      padding: 8px 4px;
       border: 1px solid rgba(255,255,255,0.07);
       border-radius: 9px;
       background: rgba(2,10,22,0.55);
       color: #abc1d4;
-      font-size: 0.58rem;
+      font-size: 0.5rem;
       font-weight: 700;
       text-align: center;
+      transition: transform 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+    }
+
+    .pipeline-modules small,
+    .pipeline-modules b {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pipeline-modules small {
+      color: #6f8ba3;
+      font-size: 0.42rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .pipeline-modules b {
+      margin-top: 3px;
+      color: #d8ecfb;
+      font-size: 0.52rem;
+    }
+
+    .pipeline-modules .active {
+      transform: translateY(-3px);
+      border-color: rgba(40,215,223,0.72);
+      background: rgba(40,215,223,0.14);
+      box-shadow: 0 0 16px rgba(40,215,223,0.16);
+    }
+
+    .pipeline-modules .active b {
+      color: var(--cyan-soft);
     }
 
     .pipeline-branches {
       position: absolute;
-      top: 310px;
+      top: 326px;
       left: 22px;
       right: 22px;
       display: grid;
@@ -1192,14 +1226,14 @@ html = r'''<!DOCTYPE html>
     }
 
     .pipeline-downstream {
-      top: 390px;
+      top: 405px;
       border: 1px solid rgba(52,135,255,0.38);
       background: rgba(52,135,255,0.08);
       color: #c9ddff;
     }
 
     .pipeline-reduced {
-      top: 452px;
+      top: 467px;
       border: 1px solid rgba(142,234,79,0.3);
       background: rgba(142,234,79,0.07);
       color: #d8ffbd;
@@ -2428,9 +2462,9 @@ html = r'''<!DOCTYPE html>
               <path class="moving-line" d="M83 146 V166 Q83 174 93 174 H250 V180" />
               <path class="moving-line" d="M250 146 V180" />
               <path class="moving-line" d="M417 146 V166 Q417 174 407 174 H250" />
-              <path class="moving-line reject-line" d="M250 278 V294 L125 310" />
-              <path class="moving-line forward-line" d="M250 278 V294 L375 310" />
-              <path class="moving-line downstream-line" d="M375 368 V378 L312 390 V452" />
+              <path class="moving-line reject-line" d="M250 294 V310 L125 326" />
+              <path class="moving-line forward-line" d="M250 294 V310 L375 326" />
+              <path class="moving-line downstream-line" d="M375 384 V394 L312 405 V467" />
 
               <circle class="pipeline-data-dot" r="4">
                 <animateMotion dur="2.6s" repeatCount="indefinite" path="M83 146 V166 Q83 174 93 174 H250 V180" />
@@ -2442,10 +2476,10 @@ html = r'''<!DOCTYPE html>
                 <animateMotion dur="2.6s" begin="1.6s" repeatCount="indefinite" path="M417 146 V166 Q417 174 407 174 H250" />
               </circle>
               <circle class="pipeline-data-dot useful" r="4.5">
-                <animateMotion dur="3.8s" repeatCount="indefinite" path="M250 278 V294 L375 310 V368 V378 L312 390 V452" />
+                <animateMotion dur="3.8s" repeatCount="indefinite" path="M250 294 V310 L375 326 V384 V394 L312 405 V467" />
               </circle>
               <circle class="pipeline-data-dot normal" r="4">
-                <animateMotion dur="3.8s" begin="1.2s" repeatCount="indefinite" path="M250 278 V294 L125 310" />
+                <animateMotion dur="3.8s" begin="1.2s" repeatCount="indefinite" path="M250 294 V310 L125 326" />
                 <animate attributeName="opacity" values="0;0.8;0.8;0" keyTimes="0;0.15;0.72;1" dur="3.8s" begin="1.2s" repeatCount="indefinite" />
               </circle>
             </svg>
@@ -2461,9 +2495,26 @@ html = r'''<!DOCTYPE html>
             <div class="pipeline-core">
               <div class="pipeline-core-title">CAAD-Gate <span id="gateState">READY</span></div>
               <div class="pipeline-modules">
-                <div>Normal behaviour</div>
-                <div>Adaptive threshold</div>
-                <div>Context-aware decision</div>
+                <div class="core-stage">
+                  <small>1 · Features</small>
+                  <b id="coreFeatureValue">--</b>
+                </div>
+                <div class="core-stage">
+                  <small>2 · Baseline</small>
+                  <b id="coreBaseline">--</b>
+                </div>
+                <div class="core-stage">
+                  <small>3 · Score</small>
+                  <b id="coreScore">--</b>
+                </div>
+                <div class="core-stage">
+                  <small>4 · Threshold</small>
+                  <b id="coreThreshold">0.54</b>
+                </div>
+                <div class="core-stage">
+                  <small>5 · Context</small>
+                  <b id="coreContext">Normal</b>
+                </div>
               </div>
             </div>
 
@@ -3075,6 +3126,12 @@ if (decision.gateOpen) {
     const receivedCount = document.getElementById("receivedCount");
     const forwardedCount = document.getElementById("forwardedCount");
     const rejectedCount = document.getElementById("rejectedCount");
+    const coreFeatureValue = document.getElementById("coreFeatureValue");
+    const coreBaseline = document.getElementById("coreBaseline");
+    const coreScore = document.getElementById("coreScore");
+    const coreThreshold = document.getElementById("coreThreshold");
+    const coreContext = document.getElementById("coreContext");
+    const coreStages = [...document.querySelectorAll(".core-stage")];
 
     const transactionSamples = [
       { sensor: "Sound", value: "0.18 RMS", score: 0.31, reason: "Background" },

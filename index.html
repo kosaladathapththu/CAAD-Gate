@@ -2571,9 +2571,7 @@ if (decision.gateOpen) {
       packetValue.textContent = sample.value;
       packetDecision.textContent = gateOpen ? "FORWARDED" : "REJECTED";
       gateState.textContent = gateOpen ? "OPEN" : "CLOSED";
-      transactionResult.textContent = gateOpen
-        ? sample.reason + " · sent downstream"
-        : sample.reason + " · processing skipped";
+      transactionResult.textContent = gateOpen ? "Open · Forwarded" : "Closed · Rejected";
       receivedCount.textContent = totalReceived;
       forwardedCount.textContent = totalForwarded;
       rejectedCount.textContent = totalRejected;

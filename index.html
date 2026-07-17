@@ -2647,6 +2647,79 @@ if (decision.gateOpen) {
     );
     scenarioObserver.observe(heroScenario);
 
+    const soundDemoScreen = document.getElementById("soundDemoScreen");
+    const soundWaveBars = [...document.querySelectorAll("#soundWave span")];
+    const soundFlowSteps = [...document.querySelectorAll("#soundDemoFlow .flow-item")];
+    const soundPhase = document.getElementById("soundPhase");
+    const demoEnergy = document.getElementById("demoEnergy");
+    const demoNoise = document.getElementById("demoNoise");
+    const demoThreshold = document.getElementById("demoThreshold");
+    const demoGateStatus = document.getElementById("demoGateStatus");
+    const demoSaved = document.getElementById("demoSaved");
+    const demoReason = document.getElementById("demoReason");
+
+    const soundDemoPhases = [
+      { phase: "Learning background noise", energy: "0.16", noise: "0.14", threshold: "0.42", gate: "CALIBRATING", saved: "0.00%", reason: "Learning background", amplitude: 22 },
+      { phase: "Normal sound · processing skipped", energy: "0.20", noise: "0.18", threshold: "0.48", gate: "CLOSED", saved: "61.20%", reason: "Normal background", amplitude: 30 },
+      { phase: "Sound event detected", energy: "0.84", noise: "0.19", threshold: "0.51", gate: "ANALYZING", saved: "62.05%", reason: "Sudden peak", amplitude: 102 },
+      { phase: "Meaningful event forwarded", energy: "0.91", noise: "0.20", threshold: "0.54", gate: "OPEN", saved: "62.18%", reason: "Peak forwarded", amplitude: 116 },
+      { phase: "Returned to normal", energy: "0.23", noise: "0.20", threshold: "0.53", gate: "CLOSED", saved: "65.33%", reason: "Event ended", amplitude: 34 }
+    ];
+
+    let soundDemoIndex = 0;
+    let soundPhaseTimer = null;
+    let soundWaveTimer = null;
+    let currentWaveAmplitude = soundDemoPhases[0].amplitude;
+
+    const updateSoundDemo = () => {
+      const current = soundDemoPhases[soundDemoIndex];
+      soundPhase.textContent = current.phase;
+      demoEnergy.textContent = current.energy;
+      demoNoise.textContent = current.noise;
+      demoThreshold.textContent = current.threshold;
+      demoGateStatus.textContent = current.gate;
+      demoSaved.textContent = current.saved;
+      demoReason.textContent = current.reason;
+      currentWaveAmplitude = current.amplitude;
+
+      const gateOpen = current.gate === "OPEN";
+      soundDemoScreen.classList.toggle("gate-open", gateOpen);
+      soundDemoScreen.classList.toggle("event-detected", soundDemoIndex === 2 || gateOpen);
+      demoGateStatus.style.color = gateOpen ? "var(--green)" : current.gate === "CLOSED" ? "#a9bbcb" : "var(--cyan-soft)";
+      soundFlowSteps.forEach((step, index) => step.classList.toggle("active", index === soundDemoIndex));
+
+      soundDemoIndex = (soundDemoIndex + 1) % soundDemoPhases.length;
+    };
+
+    const animateSoundWave = () => {
+      soundWaveBars.forEach((bar, index) => {
+        const centerWeight = 1 - Math.abs(index - (soundWaveBars.length - 1) / 2) / soundWaveBars.length;
+        const randomHeight = 10 + Math.random() * currentWaveAmplitude * centerWeight;
+        bar.style.height = Math.round(randomHeight) + "px";
+        bar.style.opacity = String(0.5 + Math.random() * 0.5);
+      });
+    };
+
+    const soundDemoObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !soundPhaseTimer) {
+            updateSoundDemo();
+            animateSoundWave();
+            soundPhaseTimer = window.setInterval(updateSoundDemo, 2400);
+            soundWaveTimer = window.setInterval(animateSoundWave, 180);
+          } else if (!entry.isIntersecting && soundPhaseTimer) {
+            window.clearInterval(soundPhaseTimer);
+            window.clearInterval(soundWaveTimer);
+            soundPhaseTimer = null;
+            soundWaveTimer = null;
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    soundDemoObserver.observe(soundDemoScreen);
+
     document.querySelectorAll(".faq-question").forEach(button => {
       button.addEventListener("click", () => {
         const item = button.closest(".faq-item");

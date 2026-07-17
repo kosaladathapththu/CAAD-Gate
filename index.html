@@ -995,6 +995,294 @@ html = r'''<!DOCTYPE html>
       50% { opacity: 0.25; }
     }
 
+    .gate-visual.pipeline-console {
+      min-height: 650px;
+    }
+
+    .pipeline-visual {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      padding: 20px;
+      color: #dcecff;
+      pointer-events: none;
+    }
+
+    .pipeline-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid rgba(138,247,251,0.12);
+    }
+
+    .pipeline-heading > div span {
+      display: block;
+      color: #7693ab;
+      font-size: 0.58rem;
+      font-weight: 850;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .pipeline-heading > div strong {
+      display: block;
+      margin-top: 3px;
+      font-size: 0.86rem;
+    }
+
+    .pipeline-sensors {
+      position: absolute;
+      top: 88px;
+      left: 22px;
+      right: 22px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .pipeline-sensors div {
+      min-height: 58px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 2px;
+      border: 1px solid rgba(40,215,223,0.18);
+      border-radius: 12px;
+      background: rgba(3,15,29,0.66);
+      font-size: 0.66rem;
+      font-weight: 750;
+    }
+
+    .pipeline-sensors b {
+      color: var(--cyan);
+      font-size: 0.9rem;
+      text-shadow: 0 0 10px rgba(40,215,223,0.55);
+    }
+
+    .pipeline-arrow {
+      position: absolute;
+      top: 151px;
+      left: 50%;
+      width: 2px;
+      height: 24px;
+      background: linear-gradient(var(--cyan), var(--blue));
+    }
+
+    .pipeline-arrow::after {
+      content: "";
+      position: absolute;
+      left: -4px;
+      bottom: 0;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid var(--blue);
+      border-bottom: 2px solid var(--blue);
+      transform: rotate(45deg);
+    }
+
+    .pipeline-core {
+      position: absolute;
+      top: 180px;
+      left: 22px;
+      right: 22px;
+      padding: 12px;
+      border: 1px solid rgba(40,215,223,0.5);
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(40,215,223,0.09), rgba(52,135,255,0.07));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .pipeline-core-title {
+      display: flex;
+      justify-content: space-between;
+      color: var(--cyan-soft);
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .pipeline-core-title span {
+      color: #b8cde0;
+    }
+
+    .pipeline-modules {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 9px;
+    }
+
+    .pipeline-modules div {
+      padding: 9px 6px;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 9px;
+      background: rgba(2,10,22,0.55);
+      color: #abc1d4;
+      font-size: 0.58rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .pipeline-branches {
+      position: absolute;
+      top: 310px;
+      left: 22px;
+      right: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .pipeline-branch {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: rgba(3,13,25,0.7);
+      font-size: 1rem;
+      font-weight: 900;
+      transition: opacity 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+    }
+
+    .pipeline-branch span {
+      font-size: 0.65rem;
+    }
+
+    .pipeline-branch.reject { color: #aebdca; }
+    .pipeline-branch.forward { color: var(--green); }
+
+    .gate-visual.gate-open .pipeline-branch.forward,
+    .gate-visual.gate-closed .pipeline-branch.reject {
+      opacity: 1;
+      transform: translateY(-3px);
+      box-shadow: 0 0 22px rgba(40,215,223,0.1);
+    }
+
+    .gate-visual.gate-open .pipeline-branch.reject,
+    .gate-visual.gate-closed .pipeline-branch.forward {
+      opacity: 0.35;
+    }
+
+    .pipeline-downstream,
+    .pipeline-reduced {
+      position: absolute;
+      left: 25%;
+      right: 22px;
+      min-height: 48px;
+      display: grid;
+      place-items: center;
+      padding: 9px 12px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 0.65rem;
+      font-weight: 800;
+    }
+
+    .pipeline-downstream {
+      top: 390px;
+      border: 1px solid rgba(52,135,255,0.38);
+      background: rgba(52,135,255,0.08);
+      color: #c9ddff;
+    }
+
+    .pipeline-reduced {
+      top: 452px;
+      border: 1px solid rgba(142,234,79,0.3);
+      background: rgba(142,234,79,0.07);
+      color: #d8ffbd;
+    }
+
+    .pipeline-telemetry {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 14px;
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 4px;
+      padding: 10px;
+      border: 1px solid rgba(138,247,251,0.14);
+      border-radius: 13px;
+      background: rgba(2,8,20,0.82);
+    }
+
+    .pipeline-telemetry span {
+      min-width: 0;
+      padding-left: 6px;
+      border-left: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .pipeline-telemetry small,
+    .pipeline-telemetry b {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pipeline-telemetry small {
+      color: #718ba2;
+      font-size: 0.47rem;
+      text-transform: uppercase;
+    }
+
+    .pipeline-telemetry b {
+      margin-top: 2px;
+      color: #e3f1ff;
+      font-size: 0.58rem;
+    }
+
+    .pipeline-packet {
+      position: absolute;
+      z-index: 4;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    .pipeline-packet.useful {
+      background: var(--green);
+      box-shadow: 0 0 14px var(--green);
+    }
+
+    .pipeline-packet.normal {
+      background: #9fb2c4;
+      box-shadow: 0 0 12px rgba(159,178,196,0.55);
+    }
+
+    .gate-visual.is-active .pipeline-packet.useful {
+      animation: pipelineUseful 3.8s ease-in-out infinite;
+    }
+
+    .gate-visual.is-active .pipeline-packet.normal {
+      animation: pipelineNormal 3.8s ease-in-out 1.2s infinite;
+    }
+
+    @keyframes pipelineUseful {
+      0% { left: 50%; top: 130px; opacity: 0; }
+      12% { opacity: 1; }
+      38% { left: 50%; top: 230px; }
+      58% { left: 73%; top: 335px; }
+      76% { left: 73%; top: 410px; }
+      94% { left: 73%; top: 470px; opacity: 1; }
+      100% { left: 73%; top: 485px; opacity: 0; }
+    }
+
+    @keyframes pipelineNormal {
+      0% { left: 50%; top: 130px; opacity: 0; }
+      15% { opacity: 0.75; }
+      45% { left: 50%; top: 230px; }
+      68% { left: 27%; top: 335px; opacity: 0.65; }
+      85%, 100% { left: 27%; top: 345px; transform: scale(0.15); opacity: 0; }
+    }
+
     .hero-proof-line {
       display: inline-flex;
       align-items: center;
@@ -1900,6 +2188,29 @@ html = r'''<!DOCTYPE html>
         border-top: 1px solid rgba(255,255,255,0.08);
       }
 
+      .pipeline-visual {
+        padding-inline: 12px;
+      }
+
+      .pipeline-sensors,
+      .pipeline-core,
+      .pipeline-branches {
+        left: 12px;
+        right: 12px;
+      }
+
+      .pipeline-downstream,
+      .pipeline-reduced {
+        left: 22%;
+        right: 12px;
+      }
+
+      .pipeline-telemetry {
+        left: 10px;
+        right: 10px;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
       .screen-metrics {
         grid-template-columns: 1fr;
       }
@@ -2020,69 +2331,53 @@ html = r'''<!DOCTYPE html>
           </div>
         </div>
 
-        <div class="gate-visual reveal" id="heroScenario" aria-label="Live adaptive data-gating transaction console">
+        <div class="gate-visual pipeline-console reveal" id="heroScenario" aria-label="Animated early-filtering data pipeline">
           <div class="scenario-shade"></div>
-          <div class="scenario-overlay" aria-hidden="true">
-            <div class="console-heading">
-              <div class="console-title">
-                <span>CAAD-Gate runtime</span>
-                <strong>Adaptive data routing</strong>
+          <div class="pipeline-visual" aria-hidden="true">
+            <div class="pipeline-heading">
+              <div>
+                <span>Early filtering layer</span>
+                <strong>Continuous data → useful events</strong>
               </div>
               <span class="scenario-result" id="transactionResult">Ready</span>
             </div>
-            <div class="source-stack">
-              <div class="data-endpoint">Sound</div>
-              <div class="data-endpoint">Environment</div>
-              <div class="data-endpoint">Motion</div>
+
+            <div class="pipeline-sensors">
+              <div><b>◉</b><span>Sound</span></div>
+              <div><b>◇</b><span>Environment</span></div>
+              <div><b>◆</b><span>Motion</span></div>
             </div>
-            <div class="destination-stack">
-              <div class="data-endpoint">ML processing</div>
-              <div class="data-endpoint">Alert / logging</div>
-              <div class="data-endpoint">Communication</div>
+
+            <div class="pipeline-arrow"></div>
+
+            <div class="pipeline-core">
+              <div class="pipeline-core-title">CAAD-Gate <span id="gateState">READY</span></div>
+              <div class="pipeline-modules">
+                <div>Normal behaviour</div>
+                <div>Adaptive threshold</div>
+                <div>Context-aware decision</div>
+              </div>
             </div>
-            <div class="flow-line"></div>
-            <span class="signal-particle useful"></span>
-            <span class="signal-particle useful delay-two"></span>
-            <span class="signal-particle useful delay-three"></span>
-            <span class="signal-particle normal"></span>
-            <div class="adaptive-node">Gate<br /><span id="gateState">READY</span></div>
-            <div class="output-glow"></div>
-            <div class="transaction-panel">
-              <div>
-                <div class="transaction-live">Live data transaction simulation</div>
-                <div class="transaction-row">
-                  <div class="transaction-value">
-                    <span>Packet</span>
-                    <strong id="packetId">#0000</strong>
-                  </div>
-                  <div class="transaction-value">
-                    <span>Sensor</span>
-                    <strong id="packetSensor">Waiting...</strong>
-                  </div>
-                  <div class="transaction-value">
-                    <span>Value</span>
-                    <strong id="packetValue">--</strong>
-                  </div>
-                  <div class="transaction-value">
-                    <span>Decision</span>
-                    <strong class="transaction-decision" id="packetDecision">READY</strong>
-                  </div>
-                </div>
-              </div>
-              <div class="transaction-counts">
-                <div class="transaction-count">
-                  <span>Received</span>
-                  <strong id="receivedCount">0</strong>
-                </div>
-                <div class="transaction-count forwarded">
-                  <span>Forwarded</span>
-                  <strong id="forwardedCount">0</strong>
-                </div>
-                <div class="transaction-count rejected">
-                  <span>Rejected</span>
-                  <strong id="rejectedCount">0</strong>
-                </div>
-              </div>
+
+            <div class="pipeline-branches">
+              <div class="pipeline-branch reject">× <span>Reject normal data</span></div>
+              <div class="pipeline-branch forward">✓ <span>Forward useful data</span></div>
+            </div>
+
+            <div class="pipeline-downstream">Feature extraction · ML · Alert processing</div>
+            <div class="pipeline-reduced">Reduced processing load on the edge device</div>
+
+            <span class="pipeline-packet useful"></span>
+            <span class="pipeline-packet normal"></span>
+
+            <div class="pipeline-telemetry">
+              <span><small>Packet</small><b id="packetId">#0000</b></span>
+              <span><small>Sensor</small><b id="packetSensor">Waiting...</b></span>
+              <span><small>Value</small><b id="packetValue">--</b></span>
+              <span><small>Decision</small><b class="transaction-decision" id="packetDecision">READY</b></span>
+              <span><small>Received</small><b id="receivedCount">0</b></span>
+              <span><small>Forwarded</small><b id="forwardedCount">0</b></span>
+              <span><small>Rejected</small><b id="rejectedCount">0</b></span>
             </div>
           </div>
         </div>

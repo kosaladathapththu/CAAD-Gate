@@ -2438,6 +2438,16 @@ if (decision.gateOpen) {
     const menuBtn = document.getElementById("menuBtn");
     const navLinks = document.getElementById("navLinks");
     const links = [...document.querySelectorAll(".nav-links a")];
+    const heroBackgrounds = [...document.querySelectorAll(".hero-bg")];
+    let activeHeroBackground = 0;
+
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      window.setInterval(() => {
+        heroBackgrounds[activeHeroBackground].classList.remove("active");
+        activeHeroBackground = (activeHeroBackground + 1) % heroBackgrounds.length;
+        heroBackgrounds[activeHeroBackground].classList.add("active");
+      }, 6500);
+    }
 
     menuBtn.addEventListener("click", () => {
       const isOpen = navLinks.classList.toggle("open");

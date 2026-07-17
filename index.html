@@ -2718,7 +2718,14 @@ if (decision.gateOpen) {
       },
       { threshold: 0.2 }
     );
-    soundDemoObserver.observe(soundDemoScreen);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      updateSoundDemo();
+      soundWaveBars.forEach((bar, index) => {
+        bar.style.height = (18 + (index % 5) * 7) + "px";
+      });
+    } else {
+      soundDemoObserver.observe(soundDemoScreen);
+    }
 
     document.querySelectorAll(".faq-question").forEach(button => {
       button.addEventListener("click", () => {

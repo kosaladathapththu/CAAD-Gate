@@ -1889,8 +1889,13 @@ html = r'''<!DOCTYPE html>
         <div class="gate-visual reveal" id="heroScenario" aria-label="Live adaptive data-gating transaction console">
           <div class="scenario-shade"></div>
           <div class="scenario-overlay" aria-hidden="true">
-            <span class="scenario-kicker">Continuous sensor data</span>
-            <span class="scenario-result" id="transactionResult">Waiting for sensor packet</span>
+            <div class="console-heading">
+              <div class="console-title">
+                <span>CAAD-Gate runtime</span>
+                <strong>Adaptive data routing</strong>
+              </div>
+              <span class="scenario-result" id="transactionResult">Ready</span>
+            </div>
             <div class="source-stack">
               <div class="data-endpoint">Sound</div>
               <div class="data-endpoint">Environment</div>

@@ -2244,31 +2244,32 @@ html = r'''<!DOCTYPE html>
         </p>
 
         <div class="demo-layout">
-          <div class="demo-screen reveal">
+          <div class="demo-screen reveal" id="soundDemoScreen">
             <div class="screen-head">
               <strong>CAAD-Gate Sound Demo</strong>
               <span class="live-dot">LIVE</span>
             </div>
 
-            <div class="wave" aria-hidden="true">
+            <div class="wave" id="soundWave" aria-hidden="true">
               <span></span><span></span><span></span><span></span><span></span>
               <span></span><span></span><span></span><span></span><span></span>
               <span></span><span></span><span></span><span></span><span></span>
               <span></span><span></span><span></span>
             </div>
+            <div class="screen-phase" id="soundPhase">Learning background noise</div>
 
             <div class="screen-metrics">
-              <div class="screen-metric"><span>Energy</span><strong>0.78</strong></div>
-              <div class="screen-metric"><span>Noise Floor</span><strong>0.21</strong></div>
-              <div class="screen-metric"><span>Threshold</span><strong>0.54</strong></div>
-              <div class="screen-metric"><span>Gate Status</span><strong style="color:var(--green);">OPEN</strong></div>
-              <div class="screen-metric"><span>Processing Saved</span><strong>65.33%</strong></div>
-              <div class="screen-metric"><span>Reason</span><strong>Peak detected</strong></div>
+              <div class="screen-metric"><span>Energy</span><strong id="demoEnergy">0.16</strong></div>
+              <div class="screen-metric"><span>Noise Floor</span><strong id="demoNoise">0.14</strong></div>
+              <div class="screen-metric"><span>Threshold</span><strong id="demoThreshold">0.42</strong></div>
+              <div class="screen-metric"><span>Gate Status</span><strong id="demoGateStatus">CALIBRATING</strong></div>
+              <div class="screen-metric"><span>Processing Saved</span><strong id="demoSaved">0.00%</strong></div>
+              <div class="screen-metric"><span>Reason</span><strong id="demoReason">Learning background</strong></div>
             </div>
           </div>
 
-          <div class="demo-flow">
-            <div class="flow-item reveal">
+          <div class="demo-flow" id="soundDemoFlow">
+            <div class="flow-item reveal active">
               <strong>1. Learn Background</strong>
               <span>The device measures the normal sound level.</span>
             </div>

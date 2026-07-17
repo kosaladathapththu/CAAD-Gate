@@ -955,6 +955,22 @@ html = r'''<!DOCTYPE html>
       margin-top: 40px;
     }
 
+    .about-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .about-photo {
+      width: 280px;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid rgba(40,215,223,0.4);
+      box-shadow: 0 20px 55px rgba(0,0,0,0.35), 0 0 35px rgba(40,215,223,0.12);
+    }
+
     .roadmap .card {
       position: relative;
       overflow: hidden;
@@ -1109,8 +1125,15 @@ html = r'''<!DOCTYPE html>
       .hero-grid,
       .solution-layout,
       .demo-layout,
+      .about-intro,
       .contact-layout {
         grid-template-columns: 1fr;
+      }
+
+      .about-photo {
+        width: min(280px, 75vw);
+        grid-row: 1;
+        justify-self: center;
       }
 
       .gate-visual {
@@ -1695,13 +1718,18 @@ if (decision.gateOpen) {
 
     <section class="section alt" id="about">
       <div class="container">
-        <div class="eyebrow reveal">About & roadmap</div>
-        <h2 class="section-title reveal">Built for adaptive, efficient, ML-ready IoT products.</h2>
-        <p class="section-copy reveal">
-          CAAD-Gate was developed by H.M. Thisara N. Herath as part of a broader research and
-          product-development direction focused on adaptive edge intelligence for
-          resource-constrained embedded devices.
-        </p>
+        <div class="about-intro">
+          <div>
+            <div class="eyebrow reveal">About & roadmap</div>
+            <h2 class="section-title reveal">Built for adaptive, efficient, ML-ready IoT products.</h2>
+            <p class="section-copy reveal">
+              CAAD-Gate was developed by H.M. Thisara N. Herath as part of a broader research and
+              product-development direction focused on adaptive edge intelligence for
+              resource-constrained embedded devices.
+            </p>
+          </div>
+          <img class="about-photo reveal" src="about.jpeg" alt="H.M. Thisara N. Herath" />
+        </div>
 
         <div class="roadmap">
           <article class="card reveal">

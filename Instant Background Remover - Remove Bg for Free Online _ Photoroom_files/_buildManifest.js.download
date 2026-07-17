@@ -1,0 +1,89 @@
+self.__BUILD_MANIFEST = {
+  "/404": [
+    "static/chunks/0capfwzhhfo0l.js"
+  ],
+  "/[[...slug]]": [
+    "static/chunks/0i9gg2y_l8o42.js"
+  ],
+  "/_error": [
+    "static/chunks/27ggg3e73ttjk.js"
+  ],
+  "/apple-auth-redirect": [
+    "static/chunks/1-h13omte8dzl.js"
+  ],
+  "/backgrounds/[[...query]]": [
+    "static/chunks/2f-_89_vu6o_9.js"
+  ],
+  "/campaign/photoroomed-it/[...id]": [
+    "static/chunks/3i_w-jlw87k3h.js"
+  ],
+  "/company": [
+    "static/chunks/2-27ddfrpk48r.js"
+  ],
+  "/feed/[[...feed]]": [
+    "static/chunks/2tu_ruvjcik-3.js"
+  ],
+  "/global/[...slug]": [
+    "static/chunks/0gv07lx7pieou.js"
+  ],
+  "/glossary": [
+    "static/chunks/06uiw3j__y0kv.js"
+  ],
+  "/glossary/[term]": [
+    "static/chunks/0rnmedowzbb_3.js"
+  ],
+  "/join/[secretId]": [
+    "static/chunks/3ys7rovkqs2im.js"
+  ],
+  "/sitemap.xml": [
+    "static/chunks/3qlyuhq7lwrin.js"
+  ],
+  "/sitemap/[...slug]": [
+    "static/chunks/0iuv_pbr53xhb.js"
+  ],
+  "/template/[templateId]": [
+    "static/chunks/3durkq1ftcf6j.js"
+  ],
+  "/u/edit/[templateId]": [
+    "static/chunks/0-2vp4uigbohc.js"
+  ],
+  "__rewrites": {
+    "afterFiles": [
+      {
+        "source": "/:templateId([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})",
+        "destination": "/template/:templateId"
+      },
+      {
+        "source": "/apple_signin",
+        "destination": "/apple_signin/index.html"
+      }
+    ],
+    "beforeFiles": [],
+    "fallback": []
+  },
+  "sortedPages": [
+    "/404",
+    "/_app",
+    "/_error",
+    "/api/exit-preview",
+    "/api/hubspot",
+    "/api/og/template/[templateId]",
+    "/api/on-demand-revalidate",
+    "/api/preview",
+    "/api/preview-cms-proxy",
+    "/apple-auth-redirect",
+    "/backgrounds/[[...query]]",
+    "/campaign/photoroomed-it/[...id]",
+    "/company",
+    "/feed/[[...feed]]",
+    "/global/[...slug]",
+    "/glossary",
+    "/glossary/[term]",
+    "/join/[secretId]",
+    "/sitemap/[...slug]",
+    "/sitemap.xml",
+    "/template/[templateId]",
+    "/u/edit/[templateId]",
+    "/[[...slug]]"
+  ]
+};self.__BUILD_MANIFEST_CB && self.__BUILD_MANIFEST_CB()

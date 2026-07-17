@@ -1350,16 +1350,29 @@ html = r'''<!DOCTYPE html>
       height: 26px;
       border-radius: 999px;
       background: linear-gradient(to top, var(--blue), var(--cyan));
-      animation: wave 1s ease-in-out infinite;
+      transition: height 0.18s ease, opacity 0.18s ease, background 0.25s ease;
     }
 
-    .wave span:nth-child(2n) { animation-delay: 0.12s; }
-    .wave span:nth-child(3n) { animation-delay: 0.24s; }
-    .wave span:nth-child(4n) { animation-delay: 0.36s; }
+    .demo-screen.gate-open {
+      border-color: rgba(142,234,79,0.62);
+      box-shadow: inset 0 0 50px rgba(142,234,79,0.07), 0 0 32px rgba(142,234,79,0.08);
+    }
 
-    @keyframes wave {
-      0%, 100% { height: 20px; opacity: 0.45; }
-      50% { height: 105px; opacity: 1; }
+    .demo-screen.gate-open .wave span {
+      background: linear-gradient(to top, var(--cyan), var(--green));
+    }
+
+    .demo-screen.event-detected .wave {
+      filter: drop-shadow(0 0 9px rgba(40,215,223,0.45));
+    }
+
+    .screen-phase {
+      color: var(--cyan-soft);
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+      text-align: center;
     }
 
     .screen-metrics {
@@ -1396,6 +1409,20 @@ html = r'''<!DOCTYPE html>
       border-radius: 18px;
       padding: 20px;
       background: rgba(255,255,255,0.025);
+      transition: transform 0.35s ease, border-color 0.35s ease, background 0.35s ease, opacity 0.35s ease;
+      opacity: 0.58;
+    }
+
+    .flow-item.active {
+      opacity: 1;
+      transform: translateX(8px);
+      border-color: rgba(40,215,223,0.48);
+      background: linear-gradient(90deg, rgba(40,215,223,0.11), rgba(52,135,255,0.04));
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    }
+
+    .flow-item.active strong {
+      color: var(--cyan-soft);
     }
 
     .flow-item strong {

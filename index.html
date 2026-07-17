@@ -1885,6 +1885,18 @@ html = r'''<!DOCTYPE html>
         opacity: 0.35;
         transform: none;
       }
+
+      #soundWave span {
+        animation: demoWave 1s ease-in-out infinite !important;
+      }
+
+      .live-dot::before {
+        animation: pulse 1.6s infinite !important;
+      }
+
+      .flow-item {
+        transition-duration: 0.35s !important;
+      }
     }
   </style>
 </head>
@@ -2723,14 +2735,7 @@ if (decision.gateOpen) {
       },
       { threshold: 0.2 }
     );
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      updateSoundDemo();
-      soundWaveBars.forEach((bar, index) => {
-        bar.style.height = (18 + (index % 5) * 7) + "px";
-      });
-    } else {
-      soundDemoObserver.observe(soundDemoScreen);
-    }
+    soundDemoObserver.observe(soundDemoScreen);
 
     document.querySelectorAll(".faq-question").forEach(button => {
       button.addEventListener("click", () => {

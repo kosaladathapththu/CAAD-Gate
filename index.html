@@ -1343,6 +1343,9 @@ html = r'''<!DOCTYPE html>
       justify-content: center;
       gap: 5px;
       margin: 24px 0;
+      transform: scaleY(0.42);
+      transform-origin: center;
+      transition: transform 0.45s ease, filter 0.45s ease;
     }
 
     .wave span {
@@ -1350,7 +1353,16 @@ html = r'''<!DOCTYPE html>
       height: 26px;
       border-radius: 999px;
       background: linear-gradient(to top, var(--blue), var(--cyan));
-      transition: height 0.18s ease, opacity 0.18s ease, background 0.25s ease;
+      animation: demoWave 1s ease-in-out infinite;
+    }
+
+    .wave span:nth-child(2n) { animation-delay: 0.12s; }
+    .wave span:nth-child(3n) { animation-delay: 0.24s; }
+    .wave span:nth-child(4n) { animation-delay: 0.36s; }
+
+    @keyframes demoWave {
+      0%, 100% { height: 20px; opacity: 0.45; }
+      50% { height: 105px; opacity: 1; }
     }
 
     .demo-screen.gate-open {
@@ -1358,12 +1370,21 @@ html = r'''<!DOCTYPE html>
       box-shadow: inset 0 0 50px rgba(142,234,79,0.07), 0 0 32px rgba(142,234,79,0.08);
     }
 
+    .demo-screen.gate-open .wave {
+      transform: scaleY(1);
+    }
+
     .demo-screen.gate-open .wave span {
       background: linear-gradient(to top, var(--cyan), var(--green));
     }
 
     .demo-screen.event-detected .wave {
+      transform: scaleY(0.9);
       filter: drop-shadow(0 0 9px rgba(40,215,223,0.45));
+    }
+
+    .demo-screen.gate-open.event-detected .wave {
+      transform: scaleY(1);
     }
 
     .screen-phase {
@@ -2668,8 +2689,6 @@ if (decision.gateOpen) {
 
     let soundDemoIndex = 0;
     let soundPhaseTimer = null;
-    let soundWaveTimer = null;
-    let currentWaveAmplitude = soundDemoPhases[0].amplitude;
 
     const updateSoundDemo = () => {
       const current = soundDemoPhases[soundDemoIndex];
@@ -2680,7 +2699,6 @@ if (decision.gateOpen) {
       demoGateStatus.textContent = current.gate;
       demoSaved.textContent = current.saved;
       demoReason.textContent = current.reason;
-      currentWaveAmplitude = current.amplitude;
 
       const gateOpen = current.gate === "OPEN";
       soundDemoScreen.classList.toggle("gate-open", gateOpen);
@@ -2691,28 +2709,15 @@ if (decision.gateOpen) {
       soundDemoIndex = (soundDemoIndex + 1) % soundDemoPhases.length;
     };
 
-    const animateSoundWave = () => {
-      soundWaveBars.forEach((bar, index) => {
-        const centerWeight = 1 - Math.abs(index - (soundWaveBars.length - 1) / 2) / soundWaveBars.length;
-        const randomHeight = 10 + Math.random() * currentWaveAmplitude * centerWeight;
-        bar.style.height = Math.round(randomHeight) + "px";
-        bar.style.opacity = String(0.5 + Math.random() * 0.5);
-      });
-    };
-
     const soundDemoObserver = new IntersectionObserver(
       entries => {
         entries.forEach(entry => {
           if (entry.isIntersecting && !soundPhaseTimer) {
             updateSoundDemo();
-            animateSoundWave();
             soundPhaseTimer = window.setInterval(updateSoundDemo, 2400);
-            soundWaveTimer = window.setInterval(animateSoundWave, 180);
           } else if (!entry.isIntersecting && soundPhaseTimer) {
             window.clearInterval(soundPhaseTimer);
-            window.clearInterval(soundWaveTimer);
             soundPhaseTimer = null;
-            soundWaveTimer = null;
           }
         });
       },

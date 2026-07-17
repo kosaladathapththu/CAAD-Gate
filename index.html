@@ -1872,9 +1872,16 @@ html = r'''<!DOCTYPE html>
           <div class="scenario-overlay" aria-hidden="true">
             <span class="scenario-kicker">Continuous sensor data</span>
             <span class="scenario-result" id="transactionResult">Waiting for sensor packet</span>
-            <span class="sensor-hotspot sound"></span>
-            <span class="sensor-hotspot environment"></span>
-            <span class="sensor-hotspot motion"></span>
+            <div class="source-stack">
+              <div class="data-endpoint">Sound</div>
+              <div class="data-endpoint">Environment</div>
+              <div class="data-endpoint">Motion</div>
+            </div>
+            <div class="destination-stack">
+              <div class="data-endpoint">ML processing</div>
+              <div class="data-endpoint">Alert / logging</div>
+              <div class="data-endpoint">Communication</div>
+            </div>
             <div class="flow-line"></div>
             <span class="signal-particle useful"></span>
             <span class="signal-particle useful delay-two"></span>

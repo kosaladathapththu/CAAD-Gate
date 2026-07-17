@@ -996,10 +996,30 @@ html = r'''<!DOCTYPE html>
     }
 
     .hero-proof-line {
-      margin-top: 18px;
-      color: var(--cyan-soft);
-      font-size: 0.9rem;
-      font-weight: 750;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 24px;
+      padding: 9px 12px;
+      border-left: 2px solid var(--cyan);
+      border-radius: 0 10px 10px 0;
+      background: linear-gradient(90deg, rgba(40,215,223,0.1), transparent);
+      color: #baf8fb;
+      font-size: 0.86rem;
+      font-weight: 760;
+    }
+
+    .hero-proof-line::before {
+      content: "✓";
+      width: 20px;
+      height: 20px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: rgba(142,234,79,0.14);
+      color: var(--green);
+      font-size: 0.72rem;
     }
 
     @keyframes usefulSignal {
@@ -1967,7 +1987,7 @@ html = r'''<!DOCTYPE html>
         <img class="hero-bg" src="hero-bg-environment.png" alt="" />
       </div>
       <div class="container hero-grid">
-        <div class="reveal">
+        <div class="hero-content reveal">
           <div class="eyebrow">Adaptive Edge Intelligence</div>
           <h1>CAAD-<span>Gate</span></h1>
           <p class="hero-sub">Adaptive Edge Intelligence for Low-Power IoT Devices</p>

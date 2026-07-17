@@ -3163,6 +3163,13 @@ if (decision.gateOpen) {
       packetValue.textContent = sample.value;
       packetDecision.textContent = gateOpen ? "FORWARDED" : "REJECTED";
       gateState.textContent = gateOpen ? "OPEN" : "CLOSED";
+      coreFeatureValue.textContent = sample.value;
+      coreBaseline.textContent =
+        sample.sensor === "Sound" ? "0.20 RMS" :
+        sample.sensor === "Temperature" ? "27.6 C" : "0.05 g";
+      coreScore.textContent = sample.score.toFixed(2);
+      coreThreshold.textContent = "0.54";
+      coreContext.textContent = gateOpen ? "Important" : "Normal";
       transactionResult.textContent = gateOpen ? "Open · Forwarded" : "Closed · Rejected";
       receivedCount.textContent = totalReceived;
       forwardedCount.textContent = totalForwarded;
@@ -3173,6 +3180,14 @@ if (decision.gateOpen) {
       heroScenario.classList.remove("transaction-flash");
       requestAnimationFrame(() => heroScenario.classList.add("transaction-flash"));
       window.setTimeout(() => heroScenario.classList.remove("transaction-flash"), 420);
+
+      coreStages.forEach(stage => stage.classList.remove("active"));
+      coreStages.forEach((stage, index) => {
+        window.setTimeout(() => {
+          coreStages.forEach(item => item.classList.remove("active"));
+          stage.classList.add("active");
+        }, index * 170);
+      });
     };
 
     const scenarioObserver = new IntersectionObserver(

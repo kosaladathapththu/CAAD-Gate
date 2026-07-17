@@ -1730,6 +1730,17 @@ html = r'''<!DOCTYPE html>
         animation-iteration-count: 1 !important;
         scroll-behavior: auto !important;
       }
+
+      .hero-bg {
+        display: none;
+        animation: none !important;
+      }
+
+      .hero-bg:first-child {
+        display: block;
+        opacity: 0.35;
+        transform: none;
+      }
     }
   </style>
 </head>

@@ -592,8 +592,8 @@ html = r'''<!DOCTYPE html>
       animation-play-state: running;
     }
 
-    .gate-visual.is-active .signal-particle:nth-of-type(2) { animation-delay: 0.8s; }
-    .gate-visual.is-active .signal-particle:nth-of-type(3) { animation-delay: 1.6s; }
+    .gate-visual.is-active .signal-particle.delay-two { animation-delay: 0.8s; }
+    .gate-visual.is-active .signal-particle.delay-three { animation-delay: 1.6s; }
     .gate-visual.is-active .signal-particle.normal {
       animation-name: normalSignal;
       animation-delay: 0.35s;
@@ -626,18 +626,18 @@ html = r'''<!DOCTYPE html>
     }
 
     @keyframes usefulSignal {
-      0% { transform: translate(0, 0); opacity: 0; }
+      0% { left: 12%; top: 58%; transform: scale(1); opacity: 0; }
       10% { opacity: 1; }
-      48% { transform: translate(235px, -18px); opacity: 1; }
-      58% { transform: translate(285px, -21px) scale(1.45); opacity: 1; }
-      100% { transform: translate(505px, -35px); opacity: 0; }
+      48% { left: 47%; top: 55%; transform: scale(1); opacity: 1; }
+      58% { left: 53%; top: 54%; transform: scale(1.45); opacity: 1; }
+      100% { left: 88%; top: 51%; transform: scale(1); opacity: 0; }
     }
 
     @keyframes normalSignal {
-      0% { transform: translate(0, 13px); opacity: 0; }
+      0% { left: 12%; top: 61%; transform: scale(1); opacity: 0; }
       12% { opacity: 0.7; }
-      50% { transform: translate(245px, -7px); opacity: 0.65; }
-      62%, 100% { transform: translate(280px, -9px) scale(0.2); opacity: 0; }
+      50% { left: 48%; top: 56%; transform: scale(1); opacity: 0.65; }
+      62%, 100% { left: 51%; top: 55%; transform: scale(0.2); opacity: 0; }
     }
 
     @keyframes nodePulse {
@@ -1489,8 +1489,8 @@ html = r'''<!DOCTYPE html>
             <span class="scenario-result">Useful event forwarded</span>
             <div class="flow-line"></div>
             <span class="signal-particle useful"></span>
-            <span class="signal-particle useful"></span>
-            <span class="signal-particle useful"></span>
+            <span class="signal-particle useful delay-two"></span>
+            <span class="signal-particle useful delay-three"></span>
             <span class="signal-particle normal"></span>
             <div class="adaptive-node">Adaptive<br />Gate</div>
             <div class="scenario-caption">
@@ -1799,8 +1799,8 @@ html = r'''<!DOCTYPE html>
         <div class="eyebrow reveal">Downloads</div>
         <h2 class="section-title reveal">Developer-ready framework files.</h2>
         <p class="section-copy reveal">
-          Replace the placeholder file paths below with the real ZIP, sketch, PDF, or GitHub
-          Release links when those files are ready.
+          Explore the complete V1 framework, reusable core, LilyGO demonstration sketch, and
+          technical documentation package.
         </p>
 
         <div class="cards-4 downloads-grid">
@@ -2066,6 +2066,17 @@ if (decision.gateOpen) {
     );
 
     document.querySelectorAll(".reveal").forEach(item => observer.observe(item));
+
+    const heroScenario = document.getElementById("heroScenario");
+    const scenarioObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          entry.target.classList.toggle("is-active", entry.isIntersecting);
+        });
+      },
+      { threshold: 0.25 }
+    );
+    scenarioObserver.observe(heroScenario);
 
     document.querySelectorAll(".faq-question").forEach(button => {
       button.addEventListener("click", () => {

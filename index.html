@@ -557,11 +557,66 @@ html = r'''<!DOCTYPE html>
       color: #d8ffbd;
     }
 
+    .source-stack,
+    .destination-stack {
+      position: absolute;
+      top: 34%;
+      display: grid;
+      gap: 9px;
+      width: 126px;
+    }
+
+    .source-stack { left: 5%; }
+    .destination-stack { right: 5%; }
+
+    .data-endpoint {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 37px;
+      padding: 8px 10px;
+      border: 1px solid rgba(138,247,251,0.13);
+      border-radius: 10px;
+      background: rgba(3,14,28,0.7);
+      color: #abc3d7;
+      font-size: 0.64rem;
+      font-weight: 750;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.025);
+    }
+
+    .data-endpoint::before {
+      content: "";
+      flex: 0 0 auto;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 9px rgba(40,215,223,0.75);
+    }
+
+    .destination-stack .data-endpoint {
+      border-color: rgba(142,234,79,0.14);
+      color: #c5ddb7;
+    }
+
+    .destination-stack .data-endpoint::before {
+      background: var(--green);
+      box-shadow: 0 0 9px rgba(142,234,79,0.65);
+    }
+
+    .gate-visual.gate-closed .destination-stack {
+      opacity: 0.38;
+    }
+
+    .gate-visual.gate-open .destination-stack .data-endpoint {
+      animation: destinationConfirm 0.55s ease-out;
+    }
+
     .flow-line {
       position: absolute;
-      left: 11%;
-      right: 9%;
-      top: 58%;
+      left: 26%;
+      right: 25%;
+      top: 52%;
       height: 2px;
       background: linear-gradient(90deg, rgba(40,215,223,0.12), var(--cyan), var(--green));
       box-shadow: 0 0 12px rgba(40,215,223,0.75);
@@ -598,7 +653,7 @@ html = r'''<!DOCTYPE html>
     .adaptive-node {
       position: absolute;
       left: 50%;
-      top: 55%;
+      top: 52%;
       width: 88px;
       height: 88px;
       transform: translate(-50%, -50%);
@@ -654,8 +709,8 @@ html = r'''<!DOCTYPE html>
 
     .signal-particle {
       position: absolute;
-      left: 12%;
-      top: 58%;
+      left: 25%;
+      top: 52%;
       width: 9px;
       height: 9px;
       border-radius: 50%;
@@ -688,13 +743,7 @@ html = r'''<!DOCTYPE html>
     }
 
     .sensor-hotspot {
-      position: absolute;
-      width: 12px;
-      height: 12px;
-      border: 2px solid var(--cyan-soft);
-      border-radius: 50%;
-      background: rgba(2,14,28,0.75);
-      opacity: 0;
+      display: none;
     }
 
     .sensor-hotspot::after {
@@ -888,18 +937,18 @@ html = r'''<!DOCTYPE html>
     }
 
     @keyframes usefulSignal {
-      0% { left: 12%; top: 58%; transform: scale(1); opacity: 0; }
+      0% { left: 25%; top: 52%; transform: scale(1); opacity: 0; }
       10% { opacity: 1; }
-      48% { left: 47%; top: 55%; transform: scale(1); opacity: 1; }
-      58% { left: 53%; top: 54%; transform: scale(1.45); opacity: 1; }
-      100% { left: 88%; top: 51%; transform: scale(1); opacity: 0; }
+      48% { left: 47%; top: 52%; transform: scale(1); opacity: 1; }
+      58% { left: 53%; top: 52%; transform: scale(1.35); opacity: 1; }
+      100% { left: 75%; top: 52%; transform: scale(1); opacity: 0; }
     }
 
     @keyframes normalSignal {
-      0% { left: 12%; top: 61%; transform: scale(1); opacity: 0; }
+      0% { left: 25%; top: 54%; transform: scale(1); opacity: 0; }
       12% { opacity: 0.7; }
-      50% { left: 48%; top: 56%; transform: scale(1); opacity: 0.65; }
-      62%, 100% { left: 51%; top: 55%; transform: scale(0.2); opacity: 0; }
+      50% { left: 48%; top: 53%; transform: scale(1); opacity: 0.65; }
+      62%, 100% { left: 51%; top: 52%; transform: scale(0.2); opacity: 0; }
     }
 
     @keyframes nodePulse {
@@ -942,6 +991,11 @@ html = r'''<!DOCTYPE html>
     @keyframes statusConfirm {
       0%, 58%, 100% { border-color: rgba(142,234,79,0.25); box-shadow: none; }
       72%, 88% { border-color: rgba(142,234,79,0.85); box-shadow: 0 0 22px rgba(142,234,79,0.23); }
+    }
+
+    @keyframes destinationConfirm {
+      0% { transform: translateX(6px); border-color: rgba(142,234,79,0.12); }
+      100% { transform: translateX(0); border-color: rgba(142,234,79,0.36); }
     }
 
     .problem-grid,

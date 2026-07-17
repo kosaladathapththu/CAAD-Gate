@@ -1,0 +1,1906 @@
+from pathlib import Path
+
+html = r'''<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="CAAD-Gate — Adaptive Edge Intelligence for Low-Power IoT Devices."
+  />
+  <title>CAAD-Gate | Adaptive Edge Intelligence</title>
+
+  <style>
+    :root {
+      --navy-950: #020814;
+      --navy-900: #071427;
+      --navy-850: #0a1b31;
+      --navy-800: #0d223c;
+      --cyan: #28d7df;
+      --cyan-soft: #8af7fb;
+      --blue: #3487ff;
+      --green: #8eea4f;
+      --white: #f8fbff;
+      --text: #dbe9f7;
+      --muted: #95a9bd;
+      --border: rgba(120, 215, 255, 0.18);
+      --glass: rgba(9, 28, 50, 0.72);
+      --danger: #ff758a;
+      --shadow: 0 20px 55px rgba(0, 0, 0, 0.32);
+      --radius: 22px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 84px;
+    }
+
+    body {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 5%, rgba(40, 215, 223, 0.13), transparent 28%),
+        radial-gradient(circle at 90% 14%, rgba(52, 135, 255, 0.16), transparent 27%),
+        linear-gradient(180deg, var(--navy-950), var(--navy-900) 35%, #07111f 100%);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.2;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 80%);
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 36px));
+      margin-inline: auto;
+    }
+
+    .section {
+      padding: 96px 0;
+      position: relative;
+    }
+
+    .section.alt {
+      background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.005));
+      border-block: 1px solid rgba(255,255,255,0.035);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--cyan-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 30px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--blue));
+      border-radius: 100px;
+    }
+
+    .section-title {
+      max-width: 760px;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      color: var(--white);
+      margin-bottom: 18px;
+    }
+
+    .section-copy {
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 1.04rem;
+    }
+
+    .topbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(2, 8, 20, 0.74);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav {
+      height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 1.18rem;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      border: 1px solid rgba(40,215,223,0.45);
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(135deg, rgba(40,215,223,0.2), rgba(52,135,255,0.14)),
+        rgba(255,255,255,0.025);
+      box-shadow: inset 0 0 24px rgba(40,215,223,0.08);
+    }
+
+    .brand-mark span {
+      width: 17px;
+      height: 24px;
+      border: 2px solid var(--cyan);
+      border-left-width: 5px;
+      border-radius: 4px 9px 9px 4px;
+      position: relative;
+    }
+
+    .brand-mark span::after {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 2px;
+      background: var(--green);
+      right: -10px;
+      top: 9px;
+      box-shadow: 0 -6px 0 var(--green), 0 6px 0 var(--green);
+    }
+
+    .brand strong {
+      color: var(--white);
+    }
+
+    .brand em {
+      font-style: normal;
+      color: var(--cyan);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #b9cbe0;
+      padding: 10px 11px;
+      font-size: 0.9rem;
+      border-radius: 10px;
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--white);
+      background: rgba(40,215,223,0.1);
+    }
+
+    .menu-btn {
+      display: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      color: var(--white);
+      cursor: pointer;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-items: center;
+      padding: 128px 0 78px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      color: var(--white);
+      font-size: clamp(3.7rem, 8vw, 7.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.065em;
+      margin-bottom: 22px;
+    }
+
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--cyan), var(--blue), var(--green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-sub {
+      font-size: clamp(1.1rem, 2vw, 1.45rem);
+      font-weight: 700;
+      color: #c6e8ff;
+      margin-bottom: 16px;
+    }
+
+    .hero-copy {
+      max-width: 690px;
+      color: var(--muted);
+      font-size: 1.06rem;
+      margin-bottom: 30px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+    }
+
+    .btn {
+      min-height: 48px;
+      padding: 0 21px;
+      border-radius: 13px;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      color: #001319;
+      background: linear-gradient(90deg, var(--cyan), #68f0e7);
+      box-shadow: 0 12px 35px rgba(40,215,223,0.18);
+    }
+
+    .btn-secondary {
+      border-color: rgba(104,190,255,0.33);
+      background: rgba(255,255,255,0.035);
+      color: var(--white);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 34px;
+      max-width: 680px;
+    }
+
+    .mini-stat {
+      padding: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.025);
+      border-radius: 15px;
+    }
+
+    .mini-stat strong {
+      display: block;
+      color: var(--white);
+      font-size: 1.35rem;
+      margin-bottom: 3px;
+    }
+
+    .mini-stat span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .gate-visual {
+      position: relative;
+      min-height: 490px;
+      border: 1px solid rgba(90,205,255,0.18);
+      border-radius: 30px;
+      background:
+        linear-gradient(135deg, rgba(40,215,223,0.08), transparent 35%),
+        linear-gradient(315deg, rgba(52,135,255,0.1), transparent 40%),
+        rgba(5, 18, 34, 0.72);
+      box-shadow: var(--shadow), inset 0 0 60px rgba(31,122,189,0.06);
+      overflow: hidden;
+    }
+
+    .gate-visual::before,
+    .gate-visual::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(4px);
+    }
+
+    .gate-visual::before {
+      width: 280px;
+      height: 280px;
+      left: -100px;
+      top: -80px;
+      background: rgba(40,215,223,0.12);
+    }
+
+    .gate-visual::after {
+      width: 240px;
+      height: 240px;
+      right: -80px;
+      bottom: -80px;
+      background: rgba(52,135,255,0.12);
+    }
+
+    .visual-label {
+      position: absolute;
+      z-index: 3;
+      top: 22px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      color: #9bb2c9;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.11em;
+    }
+
+    .visual-body {
+      position: absolute;
+      inset: 75px 30px 30px;
+      display: grid;
+      grid-template-columns: 1fr 135px 1fr;
+      gap: 18px;
+      align-items: center;
+      z-index: 2;
+    }
+
+    .stream-box,
+    .output-box {
+      display: grid;
+      gap: 13px;
+    }
+
+    .sensor-chip,
+    .output-chip {
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
+      border-radius: 14px;
+      padding: 13px 14px;
+      color: #bed2e6;
+      font-size: 0.87rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .sensor-chip::after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 55%;
+      right: -60%;
+      top: 50%;
+      background: linear-gradient(90deg, var(--cyan), transparent);
+      animation: stream 2.1s linear infinite;
+    }
+
+    .sensor-chip:nth-child(2)::after { animation-delay: 0.55s; }
+    .sensor-chip:nth-child(3)::after { animation-delay: 1.05s; }
+    .sensor-chip:nth-child(4)::after { animation-delay: 1.5s; }
+
+    @keyframes stream {
+      from { transform: translateX(-180%); }
+      to { transform: translateX(40%); }
+    }
+
+    .gate {
+      width: 128px;
+      height: 190px;
+      margin-inline: auto;
+      border: 2px solid rgba(40,215,223,0.62);
+      border-radius: 28px;
+      display: grid;
+      place-items: center;
+      background:
+        linear-gradient(180deg, rgba(40,215,223,0.1), rgba(52,135,255,0.07));
+      box-shadow: 0 0 40px rgba(40,215,223,0.11), inset 0 0 30px rgba(40,215,223,0.06);
+      position: relative;
+    }
+
+    .gate::before {
+      content: "";
+      width: 36px;
+      height: 128px;
+      border: 2px dashed rgba(138,247,251,0.66);
+      border-radius: 10px;
+    }
+
+    .gate-core {
+      position: absolute;
+      width: 64px;
+      height: 64px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #06182b;
+      border: 1px solid rgba(40,215,223,0.45);
+      color: var(--cyan-soft);
+      font-size: 0.75rem;
+      text-align: center;
+      font-weight: 800;
+      box-shadow: 0 0 25px rgba(40,215,223,0.15);
+    }
+
+    .output-chip.open {
+      border-color: rgba(142,234,79,0.32);
+      color: #c9f7ad;
+    }
+
+    .output-chip.closed {
+      opacity: 0.56;
+    }
+
+    .gate-status {
+      position: absolute;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      min-width: 170px;
+      text-align: center;
+      color: var(--green);
+      font-size: 0.78rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .problem-grid,
+    .cards-3,
+    .cards-4,
+    .downloads-grid,
+    .about-grid {
+      display: grid;
+      gap: 20px;
+      margin-top: 44px;
+    }
+
+    .problem-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .cards-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cards-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015)),
+        var(--glass);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.035);
+      transition: transform 0.22s ease, border-color 0.22s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(40,215,223,0.38);
+    }
+
+    .icon-box {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 13px;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, rgba(40,215,223,0.17), rgba(52,135,255,0.13));
+      border: 1px solid rgba(40,215,223,0.22);
+      color: var(--cyan-soft);
+      font-weight: 900;
+    }
+
+    .card h3 {
+      color: var(--white);
+      font-size: 1.12rem;
+      margin-bottom: 9px;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .solution-layout {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 44px;
+      align-items: start;
+      margin-top: 44px;
+    }
+
+    .quote-card {
+      border: 1px solid rgba(40,215,223,0.36);
+      border-radius: 24px;
+      padding: 30px;
+      background:
+        linear-gradient(135deg, rgba(40,215,223,0.09), rgba(52,135,255,0.05));
+    }
+
+    .quote-card blockquote {
+      color: var(--white);
+      font-size: clamp(1.45rem, 3vw, 2.25rem);
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+    }
+
+    .steps {
+      display: grid;
+      gap: 14px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      align-items: start;
+      padding: 17px;
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.025);
+    }
+
+    .step-number {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: rgba(40,215,223,0.11);
+      border: 1px solid rgba(40,215,223,0.24);
+      color: var(--cyan-soft);
+      font-weight: 900;
+    }
+
+    .step h4 {
+      color: var(--white);
+      margin-bottom: 3px;
+    }
+
+    .step p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .architecture {
+      margin-top: 46px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .arch-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .arch-box {
+      min-height: 100px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.025);
+      color: #c8dcf0;
+      font-weight: 700;
+    }
+
+    .arch-core {
+      border-color: rgba(40,215,223,0.42);
+      background: linear-gradient(90deg, rgba(40,215,223,0.09), rgba(52,135,255,0.08));
+      min-height: 130px;
+    }
+
+    .arch-decision {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .arch-decision .closed {
+      border-color: rgba(255,117,138,0.24);
+      color: #ffc2cc;
+    }
+
+    .arch-decision .open {
+      border-color: rgba(142,234,79,0.28);
+      color: #d3ffba;
+    }
+
+    .application-card {
+      min-height: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .application-card .tag {
+      align-self: flex-start;
+      margin-top: auto;
+      padding: 7px 10px;
+      border-radius: 999px;
+      color: var(--cyan-soft);
+      border: 1px solid rgba(40,215,223,0.23);
+      background: rgba(40,215,223,0.07);
+      font-size: 0.78rem;
+      font-weight: 800;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    .metric {
+      border: 1px solid var(--border);
+      border-radius: 19px;
+      padding: 22px;
+      background: rgba(255,255,255,0.025);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--white);
+      font-size: clamp(1.7rem, 3vw, 2.45rem);
+      line-height: 1;
+      margin-bottom: 9px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 26px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.02);
+    }
+
+    th,
+    td {
+      padding: 16px;
+      text-align: left;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    th {
+      color: var(--cyan-soft);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: rgba(40,215,223,0.06);
+    }
+
+    td {
+      color: #c7d6e5;
+      font-size: 0.92rem;
+    }
+
+    .demo-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-top: 44px;
+      align-items: stretch;
+    }
+
+    .demo-screen {
+      border: 1px solid rgba(40,215,223,0.25);
+      border-radius: 24px;
+      background: #02080e;
+      padding: 25px;
+      box-shadow: inset 0 0 40px rgba(40,215,223,0.05);
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .screen-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      color: #b6c7d8;
+      font-size: 0.84rem;
+    }
+
+    .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .live-dot::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      background: var(--green);
+      border-radius: 50%;
+      box-shadow: 0 0 0 0 rgba(142,234,79,0.5);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      70% { box-shadow: 0 0 0 12px rgba(142,234,79,0); }
+      100% { box-shadow: 0 0 0 0 rgba(142,234,79,0); }
+    }
+
+    .wave {
+      height: 130px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      margin: 24px 0;
+    }
+
+    .wave span {
+      width: 5px;
+      height: 26px;
+      border-radius: 999px;
+      background: linear-gradient(to top, var(--blue), var(--cyan));
+      animation: wave 1s ease-in-out infinite;
+    }
+
+    .wave span:nth-child(2n) { animation-delay: 0.12s; }
+    .wave span:nth-child(3n) { animation-delay: 0.24s; }
+    .wave span:nth-child(4n) { animation-delay: 0.36s; }
+
+    @keyframes wave {
+      0%, 100% { height: 20px; opacity: 0.45; }
+      50% { height: 105px; opacity: 1; }
+    }
+
+    .screen-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .screen-metric {
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.06);
+      padding: 13px;
+      border-radius: 13px;
+    }
+
+    .screen-metric span {
+      display: block;
+      color: #8297aa;
+      font-size: 0.75rem;
+      margin-bottom: 2px;
+    }
+
+    .screen-metric strong {
+      color: var(--white);
+    }
+
+    .demo-flow {
+      display: grid;
+      gap: 13px;
+    }
+
+    .flow-item {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      background: rgba(255,255,255,0.025);
+    }
+
+    .flow-item strong {
+      display: block;
+      color: var(--white);
+      margin-bottom: 4px;
+    }
+
+    .flow-item span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .download-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 255px;
+    }
+
+    .download-card .version {
+      color: var(--cyan-soft);
+      font-size: 0.78rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .download-card .btn {
+      margin-top: auto;
+    }
+
+    .code-block {
+      margin-top: 30px;
+      border: 1px solid rgba(40,215,223,0.2);
+      background: #01070f;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .code-head {
+      padding: 11px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: #8aa3ba;
+      font-size: 0.82rem;
+      background: rgba(255,255,255,0.025);
+    }
+
+    pre {
+      padding: 22px;
+      overflow-x: auto;
+      color: #cdeeff;
+      font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .faq-list {
+      margin-top: 38px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.025);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 19px 20px;
+      border: 0;
+      background: transparent;
+      color: var(--white);
+      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-answer p {
+      padding: 0 20px 20px;
+      color: var(--muted);
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 240px;
+    }
+
+    .faq-item.open .faq-question span {
+      transform: rotate(45deg);
+    }
+
+    .faq-question span {
+      transition: 0.25s ease;
+      color: var(--cyan);
+      font-size: 1.3rem;
+    }
+
+    .judge-box {
+      border: 1px solid rgba(40,215,223,0.35);
+      border-radius: 28px;
+      padding: clamp(26px, 4vw, 50px);
+      background:
+        linear-gradient(120deg, rgba(40,215,223,0.11), rgba(52,135,255,0.06)),
+        rgba(5,18,34,0.8);
+      box-shadow: var(--shadow);
+    }
+
+    .judge-box .button-row {
+      margin-top: 26px;
+    }
+
+    .roadmap {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 40px;
+    }
+
+    .roadmap .card {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .roadmap .card::before {
+      content: "";
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      top: -50px;
+      right: -40px;
+      background: rgba(40,215,223,0.1);
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 36px;
+      align-items: start;
+      margin-top: 44px;
+    }
+
+    .contact-info {
+      display: grid;
+      gap: 14px;
+    }
+
+    .contact-line {
+      padding: 17px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(255,255,255,0.025);
+    }
+
+    .contact-line strong {
+      color: var(--white);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .contact-line span {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    form {
+      display: grid;
+      gap: 14px;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 24px;
+      background: rgba(255,255,255,0.025);
+    }
+
+    .input-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    label {
+      color: #c5d8ea;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      margin-top: 7px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: rgba(1,7,15,0.82);
+      color: var(--white);
+      padding: 13px 14px;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(40,215,223,0.55);
+      box-shadow: 0 0 0 3px rgba(40,215,223,0.08);
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .form-message {
+      color: var(--green);
+      min-height: 24px;
+      font-size: 0.9rem;
+    }
+
+    footer {
+      padding: 35px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      color: #8297aa;
+      font-size: 0.88rem;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1020px) {
+      .nav-links {
+        position: absolute;
+        top: 74px;
+        left: 18px;
+        right: 18px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        background: rgba(2,8,20,0.97);
+        box-shadow: var(--shadow);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 12px 14px;
+      }
+
+      .menu-btn {
+        display: block;
+      }
+
+      .hero-grid,
+      .solution-layout,
+      .demo-layout,
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .gate-visual {
+        min-height: 450px;
+      }
+
+      .problem-grid,
+      .cards-4,
+      .metric-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .cards-3,
+      .roadmap {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .section {
+        padding: 76px 0;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 118px;
+      }
+
+      .hero-stats,
+      .problem-grid,
+      .cards-3,
+      .cards-4,
+      .metric-grid,
+      .roadmap,
+      .arch-row,
+      .arch-decision,
+      .input-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-body {
+        grid-template-columns: 1fr;
+        inset: 68px 20px 20px;
+      }
+
+      .gate-visual {
+        min-height: 700px;
+      }
+
+      .gate {
+        width: 105px;
+        height: 145px;
+      }
+
+      .gate::before {
+        height: 93px;
+      }
+
+      .screen-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .button-row {
+        align-items: stretch;
+      }
+
+      .button-row .btn {
+        width: 100%;
+      }
+
+      .footer-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <nav class="nav container" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="CAAD-Gate home">
+        <span class="brand-mark"><span></span></span>
+        <span><strong>CAAD</strong>-<em>Gate</em></span>
+      </a>
+
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#technology">Technology</a></li>
+        <li><a href="#applications">Applications</a></li>
+        <li><a href="#experiments">Experiments</a></li>
+        <li><a href="#demo">Demo</a></li>
+        <li><a href="#downloads">Downloads</a></li>
+        <li><a href="#docs">Docs</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <div class="eyebrow">Adaptive Edge Intelligence</div>
+          <h1>CAAD-<span>Gate</span></h1>
+          <p class="hero-sub">Adaptive Edge Intelligence for Low-Power IoT Devices</p>
+          <p class="hero-copy">
+            CAAD-Gate is a reusable adaptive data-gating framework for ESP32-class IoT devices.
+            It learns normal sensor behaviour and forwards only meaningful, abnormal, or
+            contextually important data to machine learning, alerts, logging, or communication.
+          </p>
+
+          <div class="button-row">
+            <a class="btn btn-primary" href="#downloads">Download Framework</a>
+            <a class="btn btn-secondary" href="#demo">View Live Demo</a>
+            <a class="btn btn-secondary" href="#docs">Read Documentation</a>
+          </div>
+
+          <div class="hero-stats">
+            <div class="mini-stat">
+              <strong>65.33%</strong>
+              <span>Estimated processing reduction</span>
+            </div>
+            <div class="mini-stat">
+              <strong>ESP32</strong>
+              <span>Designed for low-power devices</span>
+            </div>
+            <div class="mini-stat">
+              <strong>3 Modules</strong>
+              <span>Sound, motion and environment</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="gate-visual reveal" aria-label="Sensor data entering CAAD-Gate">
+          <div class="visual-label">
+            <span>Continuous input</span>
+            <span>Meaningful output</span>
+          </div>
+
+          <div class="visual-body">
+            <div class="stream-box">
+              <div class="sensor-chip">Microphone / Sound</div>
+              <div class="sensor-chip">Temperature / Environment</div>
+              <div class="sensor-chip">Motion / Accelerometer</div>
+              <div class="sensor-chip">Other IoT Sensors</div>
+            </div>
+
+            <div class="gate">
+              <div class="gate-core">Adaptive<br />Core</div>
+            </div>
+
+            <div class="output-box">
+              <div class="output-chip open">ML Processing</div>
+              <div class="output-chip open">Alert / Logging</div>
+              <div class="output-chip open">Cloud / Communication</div>
+              <div class="output-chip closed">Normal data rejected</div>
+            </div>
+          </div>
+
+          <div class="gate-status">Gate opens only for useful data</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="problem">
+      <div class="container">
+        <div class="eyebrow reveal">The problem</div>
+        <h2 class="section-title reveal">Small IoT devices cannot process everything.</h2>
+        <p class="section-copy reveal">
+          IoT devices continuously receive sensor data, but most data is normal. Running machine
+          learning, communication, alerts, or logging for every data window wastes resources.
+        </p>
+
+        <div class="problem-grid">
+          <article class="card reveal">
+            <div class="icon-box">01</div>
+            <h3>Continuous Data</h3>
+            <p>Sensors produce data all the time, even when nothing important is happening.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon-box">02</div>
+            <h3>Mostly Normal</h3>
+            <p>Only a small part of the sensor stream may contain a useful or abnormal event.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon-box">03</div>
+            <h3>Fixed Thresholds</h3>
+            <p>One fixed threshold cannot fit every user, room, machine, or environment.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="icon-box">04</div>
+            <h3>Expensive Processing</h3>
+            <p>Unnecessary ML and communication can waste CPU, memory, battery, and bandwidth.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="technology">
+      <div class="container">
+        <div class="eyebrow reveal">The solution</div>
+        <h2 class="section-title reveal">An adaptive decision layer before heavy processing.</h2>
+        <p class="section-copy reveal">
+          CAAD-Gate learns normal sensor behaviour, measures change, adjusts its threshold using
+          context, and decides whether each sensor window should be forwarded or rejected.
+        </p>
+
+        <div class="solution-layout">
+          <div class="quote-card reveal">
+            <blockquote>
+              “CAAD-Gate does not replace ML. It protects ML from unnecessary data.”
+            </blockquote>
+          </div>
+
+          <div class="steps">
+            <div class="step reveal">
+              <div class="step-number">1</div>
+              <div>
+                <h4>Sensor Windowing</h4>
+                <p>Continuous sensor data is divided into small windows.</p>
+              </div>
+            </div>
+
+            <div class="step reveal">
+              <div class="step-number">2</div>
+              <div>
+                <h4>Lightweight Features</h4>
+                <p>Level, variation, rate of change, peak, and duration are extracted.</p>
+              </div>
+            </div>
+
+            <div class="step reveal">
+              <div class="step-number">3</div>
+              <div>
+                <h4>Normal Behaviour Learning</h4>
+                <p>The device learns a baseline for the current sensor and environment.</p>
+              </div>
+            </div>
+
+            <div class="step reveal">
+              <div class="step-number">4</div>
+              <div>
+                <h4>Adaptive Threshold</h4>
+                <p>The decision boundary changes according to learned normal behaviour.</p>
+              </div>
+            </div>
+
+            <div class="step reveal">
+              <div class="step-number">5</div>
+              <div>
+                <h4>Context-Aware Adjustment</h4>
+                <p>Battery, urgency, user mode, and environment can change sensitivity.</p>
+              </div>
+            </div>
+
+            <div class="step reveal">
+              <div class="step-number">6</div>
+              <div>
+                <h4>Gate Decision</h4>
+                <p>Normal data is rejected. Useful or abnormal data is forwarded.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="architecture">
+          <div class="arch-row">
+            <div class="arch-box reveal">Sound Sensor Module</div>
+            <div class="arch-box reveal">Environment Sensor Module</div>
+            <div class="arch-box reveal">Motion Sensor Module</div>
+          </div>
+
+          <div class="arch-box arch-core reveal">
+            CAAD-Gate Core Engine<br />
+            Normal Model · Feature Scoring · Adaptive Threshold · Context Layer · Statistics
+          </div>
+
+          <div class="arch-decision">
+            <div class="arch-box closed reveal">Gate CLOSED<br />Reject normal data</div>
+            <div class="arch-box open reveal">Gate OPEN<br />Forward useful data</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="applications">
+      <div class="container">
+        <div class="eyebrow reveal">Applications</div>
+        <h2 class="section-title reveal">One reusable core for different IoT products.</h2>
+        <p class="section-copy reveal">
+          The sensor adapter can change while the CAAD-Gate core remains the same.
+        </p>
+
+        <div class="cards-3">
+          <article class="card application-card reveal">
+            <div class="icon-box">S</div>
+            <h3>Sound Awareness Node</h3>
+            <p>
+              Detects meaningful sound windows before classification. Suitable for alarms,
+              knocks, assistive hearing, and smart-home sound monitoring.
+            </p>
+            <span class="tag">Sound Module</span>
+          </article>
+
+          <article class="card application-card reveal">
+            <div class="icon-box">M</div>
+            <h3>Eldercare Motion Node</h3>
+            <p>
+              Learns normal movement and forwards possible fall, abnormal motion, or long
+              inactivity windows for further analysis.
+            </p>
+            <span class="tag">Motion Module</span>
+          </article>
+
+          <article class="card application-card reveal">
+            <div class="icon-box">E</div>
+            <h3>Machine & Environment Monitor</h3>
+            <p>
+              Opens the gate during sudden change, abnormal drift, or unusual operating
+              conditions in industrial or environmental systems.
+            </p>
+            <span class="tag">Environment Module</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experiments">
+      <div class="container">
+        <div class="eyebrow reveal">Experimental validation</div>
+        <h2 class="section-title reveal">Measured processing reduction with an honest trade-off.</h2>
+        <p class="section-copy reveal">
+          The first validation used the ESC-50 environmental sound dataset. The adaptive gate
+          reduced unnecessary frame-level processing while keeping recognition results close to
+          the fixed-threshold baseline.
+        </p>
+
+        <div class="metric-grid">
+          <div class="metric reveal">
+            <strong>2,000</strong>
+            <span>Total WAV files</span>
+          </div>
+          <div class="metric reveal">
+            <strong>1,600</strong>
+            <span>Training recordings</span>
+          </div>
+          <div class="metric reveal">
+            <strong>400</strong>
+            <span>Testing recordings</span>
+          </div>
+          <div class="metric reveal">
+            <strong>65.33%</strong>
+            <span>Estimated frame-level processing reduction</span>
+          </div>
+        </div>
+
+        <div class="table-wrap reveal">
+          <table>
+            <thead>
+              <tr>
+                <th>Method</th>
+                <th>Coverage</th>
+                <th>Processing Reduction</th>
+                <th>MFBE Top-1</th>
+                <th>MFBE Top-5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Fixed baseline</td>
+                <td>93.50%</td>
+                <td>Not measured in the same sheet</td>
+                <td>25.94%</td>
+                <td>46.29%</td>
+              </tr>
+              <tr>
+                <td>Adaptive CAAD-Gate</td>
+                <td>78.50%</td>
+                <td>65.33%</td>
+                <td>24.50%</td>
+                <td>46.04%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <p class="section-copy reveal" style="margin-top:22px;">
+          Interpretation: lower coverage shows a tunable trade-off. A product may use a
+          high-sensitivity mode for better event coverage or a low-power mode for stronger
+          processing reduction.
+        </p>
+      </div>
+    </section>
+
+    <section class="section alt" id="demo">
+      <div class="container">
+        <div class="eyebrow reveal">Live demo</div>
+        <h2 class="section-title reveal">ESP32 / LilyGO sound-event demonstration.</h2>
+        <p class="section-copy reveal">
+          The demo learns background sound, calculates an adaptive threshold, and opens the gate
+          only when a meaningful sound event occurs.
+        </p>
+
+        <div class="demo-layout">
+          <div class="demo-screen reveal">
+            <div class="screen-head">
+              <strong>CAAD-Gate Sound Demo</strong>
+              <span class="live-dot">LIVE</span>
+            </div>
+
+            <div class="wave" aria-hidden="true">
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span><span></span><span></span>
+              <span></span><span></span><span></span>
+            </div>
+
+            <div class="screen-metrics">
+              <div class="screen-metric"><span>Energy</span><strong>0.78</strong></div>
+              <div class="screen-metric"><span>Noise Floor</span><strong>0.21</strong></div>
+              <div class="screen-metric"><span>Threshold</span><strong>0.54</strong></div>
+              <div class="screen-metric"><span>Gate Status</span><strong style="color:var(--green);">OPEN</strong></div>
+              <div class="screen-metric"><span>Processing Saved</span><strong>65.33%</strong></div>
+              <div class="screen-metric"><span>Reason</span><strong>Peak detected</strong></div>
+            </div>
+          </div>
+
+          <div class="demo-flow">
+            <div class="flow-item reveal">
+              <strong>1. Learn Background</strong>
+              <span>The device measures the normal sound level.</span>
+            </div>
+            <div class="flow-item reveal">
+              <strong>2. Gate Closed</strong>
+              <span>Normal background sound is rejected to save processing.</span>
+            </div>
+            <div class="flow-item reveal">
+              <strong>3. Event Detected</strong>
+              <span>A clap, knock, alarm, or other meaningful event occurs.</span>
+            </div>
+            <div class="flow-item reveal">
+              <strong>4. Gate Open</strong>
+              <span>The event is forwarded to ML, alerting, logging, or communication.</span>
+            </div>
+            <div class="flow-item reveal">
+              <strong>5. Return to Normal</strong>
+              <span>The gate closes again and the saved-processing percentage increases.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="downloads">
+      <div class="container">
+        <div class="eyebrow reveal">Downloads</div>
+        <h2 class="section-title reveal">Developer-ready framework files.</h2>
+        <p class="section-copy reveal">
+          Replace the placeholder file paths below with the real ZIP, sketch, PDF, or GitHub
+          Release links when those files are ready.
+        </p>
+
+        <div class="cards-4 downloads-grid">
+          <article class="card download-card reveal">
+            <div class="version">V1.0</div>
+            <h3>CAAD-Gate Full Framework</h3>
+            <p>Core engine, sensor modules, examples, and documentation.</p>
+            <a class="btn btn-primary" href="downloads/CAAD-Gate-Full-V1.zip" download>Download ZIP</a>
+          </article>
+
+          <article class="card download-card reveal">
+            <div class="version">V1.0</div>
+            <h3>CAAD-Gate Core</h3>
+            <p>Reusable sensor-independent adaptive decision engine.</p>
+            <a class="btn btn-secondary" href="downloads/CAAD-Gate-Core-V1.zip" download>Download Core</a>
+          </article>
+
+          <article class="card download-card reveal">
+            <div class="version">Demo</div>
+            <h3>LilyGO Sound Sketch</h3>
+            <p>ESP32/LilyGO sound-gate display demonstration.</p>
+            <a class="btn btn-secondary" href="downloads/CAAD_Gate_LilyGO_Sound_Display_Demo.ino" download>Download Sketch</a>
+          </article>
+
+          <article class="card download-card reveal">
+            <div class="version">V1.0</div>
+            <h3>Documentation Package</h3>
+            <p>Theory, module reference, architecture, and experiment summary.</p>
+            <a class="btn btn-secondary" href="downloads/CAAD-Gate-Documentation.pdf" download>Read Documentation</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="docs">
+      <div class="container">
+        <div class="eyebrow reveal">Documentation</div>
+        <h2 class="section-title reveal">Simple integration for embedded developers.</h2>
+        <p class="section-copy reveal">
+          Each sensor module extracts lightweight features. The core engine uses those features to
+          decide whether the gate should open or close.
+        </p>
+
+        <div class="code-block reveal">
+          <div class="code-head">Basic usage example</div>
+          <pre><code>CAADFeatures features = sensorModule.extractFeatures(sensorData);
+CAADDecision decision = gate.update(features);
+
+if (decision.gateOpen) {
+    // Run ML, alert, communication, or logging
+} else {
+    // Save processing
+}</code></pre>
+        </div>
+
+        <div class="cards-3">
+          <article class="card reveal">
+            <h3>Required Hardware</h3>
+            <p>ESP32 or ESP32-S3, optional LilyGO display, sensor hardware, USB cable, and a laptop.</p>
+          </article>
+          <article class="card reveal">
+            <h3>Required Libraries</h3>
+            <p>Arduino ESP32 board package, TFT_eSPI for the display demo, and sensor-specific libraries.</p>
+          </article>
+          <article class="card reveal">
+            <h3>Installation</h3>
+            <p>Extract the framework, copy it into Arduino/libraries, restart the IDE, open an example, and upload.</p>
+          </article>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item reveal">
+            <button class="faq-question">Is CAAD-Gate an AI model? <span>+</span></button>
+            <div class="faq-answer"><p>No. It is a lightweight adaptive decision layer that runs before ML or alert processing.</p></div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question">Is this only for sound? <span>+</span></button>
+            <div class="faq-answer"><p>No. Sound is the first validation domain. The framework is designed for sound, motion, temperature, air quality, and other sensors.</p></div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question">Does it replace machine learning? <span>+</span></button>
+            <div class="faq-answer"><p>No. It decides whether data should be sent to machine learning, reducing unnecessary processing.</p></div>
+          </div>
+
+          <div class="faq-item reveal">
+            <button class="faq-question">Does it directly guarantee battery saving? <span>+</span></button>
+            <div class="faq-answer"><p>No guaranteed claim is made. It reduces estimated downstream processing load. Direct battery measurement depends on the final hardware.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="judges">
+      <div class="container">
+        <div class="judge-box reveal">
+          <div class="eyebrow">For NBQSA judges</div>
+          <h2 class="section-title" style="font-size:clamp(2rem,4vw,3.1rem);">
+            A practical embedded technology platform with evidence.
+          </h2>
+          <p class="section-copy">
+            CAAD-Gate includes a working ESP32-based sound-gate demo, reusable framework files,
+            sensor modules, documentation, experimental validation, and product applications
+            across sound, eldercare motion, and machine or environment monitoring.
+          </p>
+
+          <div class="button-row">
+            <a class="btn btn-primary" href="#demo">View Demo</a>
+            <a class="btn btn-secondary" href="#downloads">Download Framework</a>
+            <a class="btn btn-secondary" href="#experiments">See Results</a>
+            <a class="btn btn-secondary" href="#technology">Technology Overview</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section alt" id="about">
+      <div class="container">
+        <div class="eyebrow reveal">About & roadmap</div>
+        <h2 class="section-title reveal">Built for adaptive, efficient, ML-ready IoT products.</h2>
+        <p class="section-copy reveal">
+          CAAD-Gate was developed by H.M. Thisara N. Herath as part of a broader research and
+          product-development direction focused on adaptive edge intelligence for
+          resource-constrained embedded devices.
+        </p>
+
+        <div class="roadmap">
+          <article class="card reveal">
+            <div class="version" style="color:var(--cyan-soft);font-weight:800;">V1 — Current</div>
+            <h3>Reusable Core</h3>
+            <p>Core engine, sound, environment and motion modules, ESP32 examples, and initial validation.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="version" style="color:var(--cyan-soft);font-weight:800;">V2 — Next</div>
+            <h3>Smarter Modes</h3>
+            <p>Improved display, battery-aware modes, confidence scoring, class-specific thresholds, and event history.</p>
+          </article>
+
+          <article class="card reveal">
+            <div class="version" style="color:var(--cyan-soft);font-weight:800;">V3 — Future</div>
+            <h3>Connected Platform</h3>
+            <p>Cloud dashboard, OTA updates, Arduino library release, multi-device aggregation, and edge-ML integration.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <div class="container">
+        <div class="eyebrow reveal">Contact</div>
+        <h2 class="section-title reveal">Collaboration, testing, and product integration.</h2>
+        <p class="section-copy reveal">
+          Use this form for research discussion, developer testing, or possible product integration.
+        </p>
+
+        <div class="contact-layout">
+          <div class="contact-info">
+            <div class="contact-line reveal">
+              <strong>Project</strong>
+              <span>CAAD-Gate — Adaptive Edge Intelligence</span>
+            </div>
+            <div class="contact-line reveal">
+              <strong>Developer</strong>
+              <span>H.M. Thisara N. Herath</span>
+            </div>
+            <div class="contact-line reveal">
+              <strong>Focus</strong>
+              <span>ESP32, low-power IoT, adaptive data gating, and edge intelligence</span>
+            </div>
+          </div>
+
+          <form id="contactForm" class="reveal">
+            <div class="input-grid">
+              <label>
+                Name
+                <input type="text" name="name" required />
+              </label>
+              <label>
+                Email
+                <input type="email" name="email" required />
+              </label>
+            </div>
+
+            <label>
+              Organization
+              <input type="text" name="organization" />
+            </label>
+
+            <label>
+              Message
+              <textarea name="message" required></textarea>
+            </label>
+
+            <button class="btn btn-primary" type="submit">Send Message</button>
+            <div class="form-message" id="formMessage"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <span>© <span id="year"></span> CAAD-Gate. All rights reserved.</span>
+      <span>Adaptive Edge Intelligence for Low-Power IoT Devices</span>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    const links = [...document.querySelectorAll(".nav-links a")];
+
+    menuBtn.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+      menuBtn.textContent = isOpen ? "✕" : "☰";
+    });
+
+    links.forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+        menuBtn.textContent = "☰";
+      });
+    });
+
+    const sections = [...document.querySelectorAll("main section[id]")];
+
+    const updateActiveLink = () => {
+      const position = window.scrollY + 140;
+      let current = "home";
+
+      sections.forEach(section => {
+        if (position >= section.offsetTop) current = section.id;
+      });
+
+      links.forEach(link => {
+        link.classList.toggle("active", link.getAttribute("href") === "#" + current);
+      });
+    };
+
+    window.addEventListener("scroll", updateActiveLink);
+    updateActiveLink();
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    document.querySelectorAll(".reveal").forEach(item => observer.observe(item));
+
+    document.querySelectorAll(".faq-question").forEach(button => {
+      button.addEventListener("click", () => {
+        const item = button.closest(".faq-item");
+        const alreadyOpen = item.classList.contains("open");
+
+        document.querySelectorAll(".faq-item").forEach(faq => faq.classList.remove("open"));
+        if (!alreadyOpen) item.classList.add("open");
+      });
+    });
+
+    const contactForm = document.getElementById("contactForm");
+    const formMessage = document.getElementById("formMessage");
+
+    contactForm.addEventListener("submit", event => {
+      event.preventDefault();
+      formMessage.textContent =
+        "Form design is working. Connect this form to Formspree, EmailJS, Netlify Forms, or your backend to receive messages.";
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
+'''
+
+path = Path("/mnt/data/caad-gate-single-page-website.html")
+path.write_text(html, encoding="utf-8")
+print(f"Created: {path}")

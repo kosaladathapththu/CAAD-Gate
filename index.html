@@ -2263,6 +2263,14 @@ html = r'''<!DOCTYPE html>
       .flow-item {
         transition-duration: 0.35s !important;
       }
+
+      .gate-visual.is-active .pipeline-packet.useful {
+        animation: pipelineUseful 3.8s ease-in-out infinite !important;
+      }
+
+      .gate-visual.is-active .pipeline-packet.normal {
+        animation: pipelineNormal 3.8s ease-in-out 1.2s infinite !important;
+      }
     }
   </style>
 </head>

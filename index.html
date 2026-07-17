@@ -156,17 +156,20 @@ html = r'''<!DOCTYPE html>
     .brand {
       display: flex;
       align-items: center;
+      justify-content: center;
       width: 230px;
       height: 62px;
       overflow: hidden;
     }
 
     .brand-logo {
-      width: 100%;
-      height: 100%;
+      width: auto;
+      height: 160px;
+      flex: 0 0 auto;
       max-width: none;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
+      transform: scale(0.86);
       filter: brightness(1.18) saturate(1.15) drop-shadow(0 0 8px rgba(40,215,223,0.2));
     }
 
@@ -999,6 +1002,28 @@ html = r'''<!DOCTYPE html>
       min-height: 650px;
     }
 
+    .pipeline-photo {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.34;
+      filter: saturate(0.85) contrast(1.08) brightness(0.72);
+      transform: scale(1.015);
+    }
+
+    .gate-visual.is-active .pipeline-photo {
+      animation: pipelinePhotoDrift 16s ease-in-out infinite alternate;
+    }
+
+    @keyframes pipelinePhotoDrift {
+      from { transform: scale(1.015) translateY(0); }
+      to { transform: scale(1.055) translateY(-0.7%); }
+    }
+
     .pipeline-visual {
       position: absolute;
       inset: 0;
@@ -1006,6 +1031,15 @@ html = r'''<!DOCTYPE html>
       padding: 20px;
       color: #dcecff;
       pointer-events: none;
+    }
+
+    .pipeline-console .scenario-shade {
+      background:
+        linear-gradient(180deg, rgba(2,10,22,0.28), rgba(2,10,22,0.62)),
+        linear-gradient(rgba(138,247,251,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(138,247,251,0.025) 1px, transparent 1px),
+        radial-gradient(circle at 50% 43%, rgba(40,215,223,0.08), transparent 38%);
+      background-size: auto, 36px 36px, 36px 36px, auto;
     }
 
     .pipeline-heading {
@@ -2217,6 +2251,11 @@ html = r'''<!DOCTYPE html>
         height: 56px;
       }
 
+      .brand-logo {
+        height: 146px;
+        transform: scale(0.84);
+      }
+
       .section {
         padding: 76px 0;
       }
@@ -2428,7 +2467,7 @@ html = r'''<!DOCTYPE html>
           <div class="button-row">
             <a class="btn btn-primary" href="#downloads">Download Framework</a>
             <a class="btn btn-secondary" href="#demo">View Live Demo</a>
-            <a class="btn btn-secondary" href="#docs">Read Documentation</a>
+            <a class="btn btn-secondary" href="Reading%20document.pdf" target="_blank" rel="noopener">Read Documentation</a>
           </div>
 
           <div class="hero-stats">
@@ -2448,6 +2487,11 @@ html = r'''<!DOCTYPE html>
         </div>
 
         <div class="gate-visual pipeline-console reveal" id="heroScenario" aria-label="Animated early-filtering data pipeline">
+          <img
+            class="pipeline-photo"
+            src="pipeline-hardware-background.png"
+            alt="ESP32 edge-processing prototype connected to sound, environment, motion, display, and communication modules"
+          />
           <div class="scenario-shade"></div>
           <div class="pipeline-visual" aria-hidden="true">
             <div class="pipeline-heading">
@@ -2776,7 +2820,7 @@ html = r'''<!DOCTYPE html>
     <section class="section alt" id="demo">
       <div class="container">
         <div class="eyebrow reveal">Live demo</div>
-        <h2 class="section-title reveal">ESP32 / LilyGO sound-event demonstration.</h2>
+        <h2 class="section-title reveal">ESP32 sound-event demonstration.</h2>
         <p class="section-copy reveal">
           The demo learns background sound, calculates an adaptive threshold, and opens the gate
           only when a meaningful sound event occurs.
@@ -2868,7 +2912,7 @@ html = r'''<!DOCTYPE html>
             <div class="version">V1.0</div>
             <h3>Documentation Package</h3>
             <p>Theory, module reference, architecture, and experiment summary.</p>
-            <a class="btn btn-secondary" href="downloads/CAAD-Gate-Documentation.pdf" download>Read Documentation</a>
+            <a class="btn btn-secondary" href="Reading%20document.pdf" target="_blank" rel="noopener">Read Documentation</a>
           </article>
         </div>
       </div>

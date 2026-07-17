@@ -527,28 +527,55 @@ html = r'''<!DOCTYPE html>
       pointer-events: none;
     }
 
-    .scenario-kicker,
-    .scenario-result {
+    .console-heading {
       position: absolute;
       top: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(138,247,251,0.11);
+    }
+
+    .console-title {
+      min-width: 0;
+    }
+
+    .console-title span {
+      display: block;
+      color: #7794ad;
+      font-size: 0.58rem;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .console-title strong {
+      display: block;
+      margin-top: 3px;
+      color: #e8f6ff;
+      font-size: 0.9rem;
+      line-height: 1.2;
+    }
+
+    .scenario-result {
+      flex: 0 0 auto;
+      max-width: 48%;
       padding: 8px 11px;
       border: 1px solid rgba(138,247,251,0.28);
       border-radius: 999px;
       background: rgba(2,8,20,0.68);
       backdrop-filter: blur(8px);
-      color: #d9f9ff;
-      font-size: 0.7rem;
+      color: #d8ffbd;
+      font-size: 0.64rem;
       font-weight: 800;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-    }
-
-    .scenario-kicker { left: 20px; }
-
-    .scenario-result {
-      right: 20px;
-      border-color: rgba(142,234,79,0.38);
-      color: #d8ffbd;
+      text-align: center;
+      white-space: nowrap;
     }
 
     .source-stack,

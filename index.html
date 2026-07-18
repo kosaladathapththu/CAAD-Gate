@@ -2263,7 +2263,7 @@ html = r'''<!DOCTYPE html>
       .hero {
         min-height: auto;
         padding-top: 118px;
-        padding-bottom: 104px;
+        padding-bottom: 76px;
       }
 
       .hero-grid {
@@ -2397,27 +2397,6 @@ html = r'''<!DOCTYPE html>
       .hero .button-row {
         grid-template-columns: 1fr 1fr;
         max-width: none;
-      }
-
-      body.hero-actions-visible .hero .button-row {
-        position: fixed;
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-        z-index: 1100;
-        gap: 8px;
-        padding: 8px;
-        border: 1px solid rgba(138,247,251,0.22);
-        border-radius: 16px;
-        background: rgba(2,10,22,0.9);
-        backdrop-filter: blur(16px);
-        box-shadow: 0 14px 38px rgba(0,0,0,0.38);
-      }
-
-      body.hero-actions-visible .hero .button-row .btn {
-        min-height: 48px;
-        padding-inline: 8px;
-        font-size: 0.76rem;
       }
 
       .footer-row {
@@ -3152,7 +3131,6 @@ if (decision.gateOpen) {
     const navLinks = document.getElementById("navLinks");
     const links = [...document.querySelectorAll(".nav-links a")];
     const heroBackgrounds = [...document.querySelectorAll(".hero-bg")];
-    const homeHero = document.getElementById("home");
     let activeHeroBackground = 0;
 
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -3162,16 +3140,6 @@ if (decision.gateOpen) {
         heroBackgrounds[activeHeroBackground].classList.add("active");
       }, 6500);
     }
-
-    const heroActionsObserver = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          document.body.classList.toggle("hero-actions-visible", entry.isIntersecting);
-        });
-      },
-      { threshold: 0.05 }
-    );
-    heroActionsObserver.observe(homeHero);
 
     menuBtn.addEventListener("click", () => {
       const isOpen = navLinks.classList.toggle("open");

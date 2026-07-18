@@ -2269,13 +2269,27 @@ html = r'''<!DOCTYPE html>
         gap: 28px;
       }
 
+      .hero-content {
+        display: contents;
+      }
+
+      .hero-content > .eyebrow { order: 1; }
+      .hero-content > h1 { order: 2; }
+      .hero-content > .hero-sub { order: 3; }
+      .hero-content > .hero-copy { order: 4; }
+      .hero-content > .hero-proof-line { order: 5; }
+
       .gate-visual.pipeline-console {
-        grid-row: 1;
+        order: 6;
         margin-bottom: 6px;
       }
 
-      .hero-content {
-        grid-row: 2;
+      .hero-content > .button-row {
+        order: 7;
+      }
+
+      .hero-content > .hero-stats {
+        order: 8;
       }
 
       .hero-stats,
@@ -2380,7 +2394,29 @@ html = r'''<!DOCTYPE html>
       }
 
       .hero .button-row {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
+        max-width: none;
+      }
+
+      body.hero-actions-visible .hero .button-row {
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        z-index: 1100;
+        gap: 8px;
+        padding: 8px;
+        border: 1px solid rgba(138,247,251,0.22);
+        border-radius: 16px;
+        background: rgba(2,10,22,0.9);
+        backdrop-filter: blur(16px);
+        box-shadow: 0 14px 38px rgba(0,0,0,0.38);
+      }
+
+      body.hero-actions-visible .hero .button-row .btn {
+        min-height: 48px;
+        padding-inline: 8px;
+        font-size: 0.76rem;
       }
 
       .footer-row {

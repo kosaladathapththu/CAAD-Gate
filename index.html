@@ -3151,6 +3151,7 @@ if (decision.gateOpen) {
     const navLinks = document.getElementById("navLinks");
     const links = [...document.querySelectorAll(".nav-links a")];
     const heroBackgrounds = [...document.querySelectorAll(".hero-bg")];
+    const homeHero = document.getElementById("home");
     let activeHeroBackground = 0;
 
     if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -3160,6 +3161,16 @@ if (decision.gateOpen) {
         heroBackgrounds[activeHeroBackground].classList.add("active");
       }, 6500);
     }
+
+    const heroActionsObserver = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          document.body.classList.toggle("hero-actions-visible", entry.isIntersecting);
+        });
+      },
+      { threshold: 0.05 }
+    );
+    heroActionsObserver.observe(homeHero);
 
     menuBtn.addEventListener("click", () => {
       const isOpen = navLinks.classList.toggle("open");
